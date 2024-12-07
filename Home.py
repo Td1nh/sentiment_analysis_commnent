@@ -27,7 +27,15 @@ st.markdown(
 # Đường link của ảnh
 image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTtQEgvJla7l_AE8ew10P-7CMZ28Mp30uEPQ&s'
 # Hiển thị ảnh từ đường link
-st.image(image_url, use_column_width=True)
+# Căn giữa ảnh và thay đổi kích thước
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src="{image_url}" width="300">
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
 
 st.markdown(
     """    
