@@ -276,14 +276,60 @@ st.set_page_config(
     layout = "wide"
 )
 
+st.sidebar.title("👋 Sentiment Analysis 📄")
+st.markdown(
+    """
+    <style>
+    .centered-title {
+        text-align: center; /* Căn giữa */
+        font-family: 'Arial', sans-serif; /* Đổi font chữ (hoặc thay bằng font khác) */
+        font-size: 4em; /* Kích thước chữ */
+        font-weight: bold; /* Đậm chữ */
+    }
+    </style>
+    <h1 class="centered-title">👋 Sentiment Analysis! 👋</h1>
+    """,
+    unsafe_allow_html=True
+)
+
+# Đường link của ảnh
+image_url = 'https://tamancosmetics.vn/wp-content/uploads/2024/01/hasaki.png'
+# Hiển thị ảnh từ đường link
+# Căn giữa ảnh và thay đổi kích thước
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src="{image_url}" width="900">
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>📉 Dữ đoán nhãn</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
+
 st.sidebar.write("""#### Thành viên thực hiện:\n
-                 Trang Thư Đình
+                 Trang Thư Đình &
                  Nguyễn Quang Khải""")
 st.sidebar.write("""#### Giảng viên hướng dẫn:\n
                 Khuất Thùy Phương""")
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
-st.subheader("Dự đoán nhãn")
 processor = VietnameseTextProcessor(
     emoji_dict=emoji_dict,
     teen_dict=teen_dict,
@@ -293,7 +339,9 @@ processor = VietnameseTextProcessor(
 )
 flag = False
 lines = None
-type = st.radio("Tải bình lên hay Nhập liệu?", options=("Tải lên", "Nhập bình luận"))
+
+# Hiển thị widget radio
+type = st.radio("Tải bình luận lên hay Nhập liệu?", options=("Tải lên", "Nhập bình luận"))
 if type=="Tải lên":
     # Upload file
     uploaded_file_1 = st.file_uploader("Chọn file", type=['txt', 'csv', 'xlsx'])
@@ -311,10 +359,10 @@ if type=="Tải lên":
         du_doan = pd.DataFrame(lines)
         du_doan.columns = ['noi_dung_binh_luan']
         # Hiển thị DataFrame mới
-        st.write(f"Nội dung bình luận:")
+        st.write(f"💬 Nội dung bình luận:")
         st.dataframe(du_doan)
 
-        st.write('Đang xử lý dữ liệu...')
+        st.write('⏳ Đang xử lý dữ liệu ⏳')
         # Lưu ý: Cần cung cấp các tham số như processor, positive_words, negative_words, positive_emojis, negative_emojis.
         df_processed = du_doan['noi_dung_binh_luan'].apply(
             lambda x: preprocess_sentiment_text(x, processor, positive_words, negative_words, positive_emojis, negative_emojis)
@@ -325,7 +373,7 @@ if type=="Tải lên":
         du_doan_combined = x_with_tfidf_model(du_doan, model_path='saved_models/tfidf_model.pkl')
         
         # Tải mô hình
-        st.write(f"Đang tải mô hình...")
+        st.write(f"⏳ Đang tải mô hình ⏳")
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         # Dự đoán nhãn
@@ -351,12 +399,12 @@ if type=="Nhập bình luận":
     if text!="":
         flag = True
 
-        st.write('Đang xử lý dữ liệu...')
+        st.write('⏳ Đang xử lý dữ liệu ⏳')
         du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
         du_doan_combined = x_with_tfidf_model(du_doan, model_path='saved_models/tfidf_model.pkl')
 
         # Tải mô hình
-        st.write(f"Đang tải mô hình...")
+        st.write(f"⏳ Đang tải mô hình ⏳")
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         st.write(f"Nội dung bình luận: {text}")
