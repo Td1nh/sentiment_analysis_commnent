@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run "🏠Trang chủ.py"
+web: sh setup.sh && streamlit run Home.py
