@@ -6,6 +6,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import plotly.express as px
 import os
+import numpy as np
 
 # ================================== FUNCTION LIÊN QUAN ===================================
 # Tìm từ liên quan
@@ -231,7 +232,7 @@ def time_series(danh_gia_lien_quan):
 # ================================== DATA ===================================
 # Đọc data đánh giá
 danh_gia = pd.read_csv('data/DATA - FINAL/Danh_gia_clean.csv', sep=';')
-danh_gia['noi_dung_binh_luan_processed'] = danh_gia['noi_dung_binh_luan_processed'].fillna("không_có_dữ_liệu")
+danh_gia['noi_dung_binh_luan_processed'] = np.where(danh_gia['noi_dung_binh_luan_processed']=="không_có_dữ_liệu", None, danh_gia['noi_dung_binh_luan_processed'])
 
 # Đọc data thông tin sản phẩm
 san_pham = pd.read_csv('data/DATA - FINAL/All_San_pham_clean.csv', sep=';')
