@@ -326,7 +326,7 @@ if type=="Tải lên":
         
         # Tải mô hình
         st.write(f"Đang tải mô hình...")
-        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl')
+        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         # Dự đoán nhãn
         predictions = loaded_model.predict(du_doan_combined)
@@ -357,7 +357,7 @@ if type=="Nhập bình luận":
 
         # Tải mô hình
         st.write(f"Đang tải mô hình...")
-        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl')
+        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         st.write(f"Nội dung bình luận: {text}")
 
