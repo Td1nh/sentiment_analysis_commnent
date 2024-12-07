@@ -331,7 +331,7 @@ st.session_state.random_products
 selected_product = st.selectbox(
     "Nhập tên sản phẩm...",
     options=product_options,
-    format_func=lambda x: x[0]  # Hiển thị tên sản phẩm
+    format_func=lambda x: x  # Hiển thị tên sản phẩm
 )
 
 st.session_state.selected_ma_san_pham = selected_product
