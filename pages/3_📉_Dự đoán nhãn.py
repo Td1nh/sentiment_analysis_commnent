@@ -407,17 +407,66 @@ if type=="Nhập bình luận":
         st.write(f"⏳ Đang tải mô hình ⏳")
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
-        st.write(f"Nội dung bình luận: {text}")
+        st.markdown(
+                f"""
+                <style>
+                .intro-paragraph {{
+                    text-indent: 15px; /* Thụt lề đầu dòng */
+                    margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.8em; /* Kích thước chữ */
+                    line-height: 1.5; /* Khoảng cách dòng */
+                    text-align: justify; /* Canh đều đoạn văn */
+                    font-style: italic; /* In nghiêng đoạn văn */
+                }}
+                </style>
+                <p class="intro-paragraph">
+                <strong>Nội dung bình luận:</strong> {text}
+                </p>
+                """,
+                unsafe_allow_html=True)
 
         # Dự đoán nhãn
         predictions = loaded_model.predict(du_doan_combined)
         st.write(f"Dự đoán là nhãn: {predictions}")
-
+        st.markdown(
+                f"""
+                <style>
+                .intro-paragraph {{
+                    text-indent: 15px; /* Thụt lề đầu dòng */
+                    margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.8em; /* Kích thước chữ */
+                    line-height: 1.5; /* Khoảng cách dòng */
+                    text-align: justify; /* Canh đều đoạn văn */
+                    font-style: italic; /* In nghiêng đoạn văn */
+                }}
+                </style>
+                <p class="intro-paragraph">
+                <strong>Dự đoán là nhãn:</strong> {predictions}
+                </p>
+                """,
+                unsafe_allow_html=True)
+        
         # Dự đoán xác suất
         probabilities = loaded_model.predict_proba(du_doan_combined)
 
         # In xác suất theo từng mẫu
-        st.write(f"Xác xuất của các nhãn:\n")
+        st.markdown(
+                f"""
+                <style>
+                .intro-paragraph {{
+                    text-indent: 15px; /* Thụt lề đầu dòng */
+                    margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.8em; /* Kích thước chữ */
+                    line-height: 1.5; /* Khoảng cách dòng */
+                    text-align: justify; /* Canh đều đoạn văn */
+                    font-style: italic; /* In nghiêng đoạn văn */
+                }}
+                </style>
+                <p class="intro-paragraph">
+                <strong>Xác xuất của các nhãn:</strong> {predictions}
+                </p>
+                """,
+                unsafe_allow_html=True)
         class_labels = loaded_model.classes_
         prob_df = pd.DataFrame(probabilities, columns=class_labels)
         def highlight_max_in_row(row):
