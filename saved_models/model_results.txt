@@ -1,4 +1,0 @@
-                       Model  Accuracy      AUC   Recall  Precision       F1    Kappa      MCC  TT (Sec)
-Gradient Boosting Classifier  0.886799 0.899063 0.886799   0.934631 0.894507 0.416268 0.429090 22.776095
-      Extra Trees Classifier  0.982626 0.992262 0.982626   0.982834 0.982356 0.889433 0.890297 21.840373
-    Random Forest Classifier  0.982805 0.989984 0.982805   0.982988 0.982524 0.890464 0.891369 17.988123

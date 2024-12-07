@@ -1,0 +1,11 @@
+Classification Report for Extra Trees Classifier:
+              precision    recall  f1-score   support
+
+    negative       0.87      0.90      0.88       232
+     neutral       1.00      0.83      0.90       254
+    positive       0.99      0.99      0.99      5097
+
+    accuracy                           0.98      5583
+   macro avg       0.95      0.91      0.93      5583
+weighted avg       0.98      0.98      0.98      5583
+
