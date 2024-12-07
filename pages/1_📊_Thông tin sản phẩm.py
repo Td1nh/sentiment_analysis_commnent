@@ -315,7 +315,7 @@ st.sidebar.write("""#### Giảng viên hướng dẫn:\n
                 Khuất Thùy Phương""")
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
-products = san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique())]['ten_san_pham'].unique().reset_index()
+products = pd.DataFrame(san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique())]['ten_san_pham'].unique(), columns=['ten_san_pham']).reset_index(drop=True)
 random_products = products.head(n=10)
 st.session_state.random_products = random_products
 
