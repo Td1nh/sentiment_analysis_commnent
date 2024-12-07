@@ -282,9 +282,23 @@ with col3:
         st.image('saved_models/Random_Forest_Classifier_confusion_matrix.png', use_container_width=True)
 
 
-
-st.write("##### 4. Kết luận: Chọn mô hình Random Forest")
-
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>4. Kết luận:</strong> Chọn mô hình Random Forest
+        </p>
+        """,
+        unsafe_allow_html=True)
 
 
 
