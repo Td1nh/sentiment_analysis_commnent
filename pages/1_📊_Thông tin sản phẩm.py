@@ -316,14 +316,27 @@ st.sidebar.write("""#### Giảng viên hướng dẫn:\n
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
 products = san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique())]['ten_san_pham'].unique().tolist()
+random_products = products.head(n=10)
+st.session_state.random_products = random_products
 
-# Hiển thị ô tìm kiếm với gợi ý
-selected_product = st_searchbox(
-    search_function=search_products,
-    placeholder="Nhập tên sản phẩm...",
+# Kiểm tra xem 'selected_ma_san_pham' đã có trong session_state hay chưa
+if 'selected_ma_san_pham' not in st.session_state:
+    # Nếu chưa có, thiết lập giá trị mặc định là None hoặc ID sản phẩm đầu tiên
+    st.session_state.selected_ma_san_pham = None
+
+product_options = [(row['ten_san_pham']) for index, row in st.session_state.random_products.iterrows()]
+st.session_state.random_products
+
+# Tạo một dropdown với options là các tuple này
+selected_product = st.selectbox(
+    "Nhập tên sản phẩm...",
+    options=product_options,
+    format_func=lambda x: x[0]  # Hiển thị tên sản phẩm
 )
 
-if selected_product:
+st.session_state.selected_ma_san_pham = selected_product[1]
+
+if st.session_state.selected_ma_san_pham :
     savepath, ma_sp, danh_gia_lien_quan = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
 
     st.markdown(
