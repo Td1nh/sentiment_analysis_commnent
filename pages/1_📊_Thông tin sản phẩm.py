@@ -34,8 +34,8 @@ def generate_wordcloud(text, colormap, title):
 
 # Tìm mã sản phẩm
 def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_path):
-    ma_sp = san_pham[san_pham['ten_san_pham']==selected_product]['ma_san_pham'].iloc[0]
-    danh_gia_lien_quan = danh_gia[danh_gia['ma_san_pham']==ma_sp]
+    ma_sp = san_pham[san_pham['ten_san_pham'] == selected_product]['ma_san_pham'].iloc[0]
+    danh_gia_lien_quan = danh_gia[danh_gia['ma_san_pham'] == ma_sp]
 
     # Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
     folder = os.path.dirname(save_path)
@@ -43,25 +43,47 @@ def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_p
         os.makedirs(folder)
         
     # Lọc các bình luận theo từng cảm xúc và xử lý NaN
-    pos = ' '.join(danh_gia_lien_quan[(danh_gia_lien_quan['label'] == 'positive') & (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())]['noi_dung_binh_luan_processed'])
-    neu = ' '.join(danh_gia_lien_quan[(danh_gia_lien_quan['label'] == 'neutral') & (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())]['noi_dung_binh_luan_processed'])
-    neg = ' '.join(danh_gia_lien_quan[(danh_gia_lien_quan['label'] == 'negative') & (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())]['noi_dung_binh_luan_processed'])
-    # Vẽ wordcloud cho từng cảm xúc
+    pos = ' '.join(danh_gia_lien_quan[
+        (danh_gia_lien_quan['label'] == 'positive') & 
+        (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())
+    ]['noi_dung_binh_luan_processed'])
+    neu = ' '.join(danh_gia_lien_quan[
+        (danh_gia_lien_quan['label'] == 'neutral') & 
+        (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())
+    ]['noi_dung_binh_luan_processed'])
+    neg = ' '.join(danh_gia_lien_quan[
+        (danh_gia_lien_quan['label'] == 'negative') & 
+        (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())
+    ]['noi_dung_binh_luan_processed'])
+    
+    # Vẽ wordcloud cho từng cảm xúc nếu dữ liệu không rỗng
     plt.figure(figsize=(18, 6))
-    # Positive
-    plt.subplot(1, 3, 1)
-    generate_wordcloud(pos, 'Greens', "Positive Sentiments")
-    # Neutral
-    plt.subplot(1, 3, 2)
-    generate_wordcloud(neu, 'Blues', "Neutral Sentiments")
-    # Negative
-    plt.subplot(1, 3, 3)
-    generate_wordcloud(neg, 'Reds', "Negative Sentiments")
-    # Tạo bố cục và lưu hình ảnh
-    plt.tight_layout()
-    plt.savefig(save_path, format='png')
-    plt.close()
+    num_subplots = 0
+
+    if pos:
+        plt.subplot(1, 3, num_subplots + 1)
+        generate_wordcloud(pos, 'Greens', "Positive Sentiments")
+        num_subplots += 1
+
+    if neu:
+        plt.subplot(1, 3, num_subplots + 1)
+        generate_wordcloud(neu, 'Blues', "Neutral Sentiments")
+        num_subplots += 1
+
+    if neg:
+        plt.subplot(1, 3, num_subplots + 1)
+        generate_wordcloud(neg, 'Reds', "Negative Sentiments")
+        num_subplots += 1
+
+    # Nếu có ít nhất một cảm xúc được vẽ, tạo bố cục và lưu hình ảnh
+    if num_subplots > 0:
+        plt.tight_layout()
+        plt.savefig(save_path, format='png')
+        plt.close()
+    else:
+        plt.close()  # Đảm bảo giải phóng tài nguyên khi không có gì để vẽ
     return save_path, ma_sp, danh_gia_lien_quan
+
 
 # Thống kê cơ bản
 def group_by_so_sao_do_dai(danh_gia_lien_quan):
