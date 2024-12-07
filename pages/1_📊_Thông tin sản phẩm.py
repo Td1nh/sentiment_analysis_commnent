@@ -324,9 +324,7 @@ if 'selected_ma_san_pham' not in st.session_state:
     # Nếu chưa có, thiết lập giá trị mặc định là None hoặc ID sản phẩm đầu tiên
     st.session_state.selected_ma_san_pham = None
 
-product_options = random_products['ten_san_pham'].tolist()
-# Hiển thị danh sách sản phẩm và lưu vào session_state nếu cần
-st.session_state.product_options = product_options
+product_options = [row['ten_san_pham'] for index, row in st.session_state.random_products.iterrows()]
 st.session_state.random_products
 
 # Tạo một dropdown với options là các tuple này
@@ -336,7 +334,7 @@ selected_product = st.selectbox(
     format_func=lambda x: x[0]  # Hiển thị tên sản phẩm
 )
 
-st.session_state.selected_ma_san_pham = selected_product[1]
+st.session_state.selected_ma_san_pham = selected_product
 
 if st.session_state.selected_ma_san_pham :
     savepath, ma_sp, danh_gia_lien_quan = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
