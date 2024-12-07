@@ -218,13 +218,98 @@ san_pham = pd.read_csv('data/DATA - FINAL/All_San_pham_clean.csv', sep=';')
 # ================================== STREAMLIT ===================================
 st.set_page_config(page_title="Thông tin sản phẩm", page_icon="📊", layout = "wide")
 
-st.markdown("# Thống kê sản phẩm")
-st.write(
-    """Đây là trang thống kê thông tin về sản phẩm có trong hệ thống. Xin nhập tên sản phẩm."""
+st.sidebar.title("👋 Sentiment Analysis 📄")
+st.markdown(
+    """
+    <style>
+    .centered-title {
+        text-align: center; /* Căn giữa */
+        font-family: 'Arial', sans-serif; /* Đổi font chữ (hoặc thay bằng font khác) */
+        font-size: 4em; /* Kích thước chữ */
+        font-weight: bold; /* Đậm chữ */
+    }
+    </style>
+    <h1 class="centered-title">👋 Sentiment Analysis! 👋</h1>
+    """,
+    unsafe_allow_html=True
+)
+
+# Đường link của ảnh
+image_url = 'https://tamancosmetics.vn/wp-content/uploads/2024/01/hasaki.png'
+# Hiển thị ảnh từ đường link
+# Căn giữa ảnh và thay đổi kích thước
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src="{image_url}" width="900">
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <style>
+    .intro-title {
+        font-weight: bold; /* Làm đậm chữ */
+        font-size: 2em; /* Kích thước chữ */
+        margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+        display: flex; /* Dùng flex để căn icon và tiêu đề cùng dòng */
+        align-items: center; /* Căn icon theo trục dọc */
+    }
+    .intro-icon {
+        margin-right: 10px; /* Khoảng cách giữa icon và chữ */
+        font-size: 2em; /* Kích thước icon */
+    }
+    </style>
+    <div class="intro-title">
+        <span class="intro-icon">📊</span> <!-- Icon -->
+        Thống kê sản phẩm
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <style>
+    .intro-paragraph {
+        text-indent: 0px; /* Thụt lề đầu dòng */
+        margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+        font-size: 1.8em; /* Kích thước chữ */
+        line-height: 1.5; /* Khoảng cách dòng */
+        text-align: center; /* Canh đều đoạn văn */
+        font-style: italic; /* In nghiêng đoạn văn */
+    }
+    </style>
+    <p class="intro-paragraph">
+    ⌨️⌨️⌨️   Mời bạn nhập tên sản phẩm cần tìm    ⌨️⌨️⌨️
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <style>
+    .intro-paragraph {
+        text-indent: 0px; /* Thụt lề đầu dòng */
+        margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+        font-size: 1.8em; /* Kích thước chữ */
+        line-height: 1.5; /* Khoảng cách dòng */
+        text-align: justify; /* Canh đều đoạn văn */
+        font-style: italic; /* In nghiêng đoạn văn */
+    }
+    </style>
+    <p class="intro-paragraph">
+    <strong>Chọn sản phẩm:</strong>
+    </p>
+    """,
+    unsafe_allow_html=True
 )
 
 st.sidebar.write("""#### Thành viên thực hiện:\n
-                 Trang Thư Đình
+                 Trang Thư Đình &
                  Nguyễn Quang Khải""")
 st.sidebar.write("""#### Giảng viên hướng dẫn:\n
                 Khuất Thùy Phương""")
@@ -236,31 +321,146 @@ products = san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique(
 selected_product = st_searchbox(
     search_function=search_products,
     placeholder="Nhập tên sản phẩm...",
-    label="Chọn sản phẩm"
 )
 
 if selected_product:
     savepath, ma_sp, danh_gia_lien_quan = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
 
-    # Thông tin sản phẩm
-    st.write("## Bạn đã chọn")
-    st.write(f"Sản phẩm: {selected_product}")
-    st.write(f'Mã sản phẩm: {ma_sp}')
+    st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>Bạn đã chọn:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
+    
+    st.markdown(
+        f"""
+        <style>
+        .intro-paragraph {{
+            text-indent: 0px; /* Không thụt lề đầu dòng */
+            margin-left: 0px; /* Không dịch chuyển cả đoạn văn */
+            font-size: 1.3em; /* Tăng kích thước chữ */
+            line-height: 1.5; /* Giãn dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* Làm nghiêng chữ */
+        }}
+        </style>
+        <p class="intro-paragraph">
+        - <strong>Sản phẩm:</strong> {selected_product} <br>
+        - <strong>Mã sản phẩm:</strong> {ma_sp} <br>
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
 
-    # Word could
-    st.write('## Word cloud của sản phẩm')
-    st.image(savepath, use_container_width=True)
+    st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>Word could:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
+    
+    st.image(savepath, use_column_width=True)
 
     # Thống kê
-    st.write('## Thống kê cơ bản')
+    st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>Thống kê cơ bản:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 
-    st.write('### Số sao và độ dài theo nhãn')
+    st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        🌟 Số sao và độ dài theo nhãn
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
     group_by_so_sao_do_dai(danh_gia_lien_quan)
 
-    st.write('### Số lượng bình luận theo sao và từ tích cực - tiêu cực')
+    st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        📧 Số lượng bình luận theo sao và từ tích cực - tiêu cực
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
     so_luong(danh_gia_lien_quan)
 
-    st.write('### Số lượng theo ngày bình luận')
+    st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 0px; /* Thụt lề đầu dòng */
+            margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: ; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        📆 Số lượng theo ngày bình luận
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
     time_series(danh_gia_lien_quan)
 
 
