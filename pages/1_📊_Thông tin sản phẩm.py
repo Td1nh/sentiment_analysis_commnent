@@ -331,10 +331,10 @@ st.session_state.random_products
 selected_product = st.selectbox(
     "Nhập tên sản phẩm...",
     options=product_options,
-    format_func=lambda x: x[0]  # Hiển thị tên sản phẩm
+    format_func=lambda x: x  # Hiển thị tên sản phẩm
 )
 
-st.session_state.selected_ma_san_pham = selected_product[1]
+st.session_state.selected_ma_san_pham = selected_product
 
 if st.session_state.selected_ma_san_pham :
     savepath, ma_sp, danh_gia_lien_quan = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
