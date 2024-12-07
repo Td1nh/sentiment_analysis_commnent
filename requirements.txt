@@ -1,4 +1,5 @@
 streamlit
+maturin
 numpy
 pandas
 underthesea
@@ -9,4 +10,3 @@ plotly
 streamlit_searchbox
 fuzzywuzzy
 wordcloud
-maturin
