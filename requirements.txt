@@ -4,7 +4,6 @@ pandas
 underthesea
 scipy
 joblib
-re
 regex
 plotly
 streamlit_searchbox
