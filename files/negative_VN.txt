@@ -68,3 +68,5 @@ bực_mình
 sạm
 sạm_da
 bết
+không_nên
+không_đạt
