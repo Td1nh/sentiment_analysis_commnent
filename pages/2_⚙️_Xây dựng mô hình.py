@@ -13,24 +13,124 @@ st.set_page_config(
     layout = "wide"
 )
 
+st.markdown(
+    """
+    <style>
+    .centered-title {
+        text-align: center; /* Căn giữa */
+        font-family: 'Arial', sans-serif; /* Đổi font chữ (hoặc thay bằng font khác) */
+        font-size: 4em; /* Kích thước chữ */
+        font-weight: bold; /* Đậm chữ */
+    }
+    </style>
+    <h1 class="centered-title">👋 Sentiment Analysis! 👋</h1>
+    """,
+    unsafe_allow_html=True
+)
+
+st.sidebar.title("👋 Sentiment Analysis 📄")
+
+# Đường link của ảnh
+image_url = 'https://tamancosmetics.vn/wp-content/uploads/2024/01/hasaki.png'
+# Hiển thị ảnh từ đường link
+# Căn giữa ảnh và thay đổi kích thước
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src="{image_url}" width="900">
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
+
+st.markdown(
+    """
+    <style>
+    .intro-title {
+        font-weight: bold; /* Làm đậm chữ */
+        font-size: 2em; /* Kích thước chữ */
+        margin-bottom: 5px; /* Khoảng cách dưới tiêu đề */
+        display: flex; /* Dùng flex để căn icon và tiêu đề cùng dòng */
+        align-items: center; /* Căn icon theo trục dọc */
+    }
+    .intro-icon {
+        margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+        font-size: 2em; /* Kích thước icon */
+    }
+    </style>
+    <div class="intro-title">
+        <span class="intro-icon">⚙️</span> <!-- Icon -->
+        Xây dựng mô hình
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 st.sidebar.write("""#### Thành viên thực hiện:\n
-                 Trang Thư Đình
+                 Trang Thư Đình &
                  Nguyễn Quang Khải""")
 st.sidebar.write("""#### Giảng viên hướng dẫn:\n
                 Khuất Thùy Phương""")
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
-st.subheader("Xây dựng mô hình")
-st.write("##### 1. Dữ liệu")
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>1. Dữ liệu:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 st.dataframe(danh_gia[['noi_dung_binh_luan_sai_chinh_ta', 'so_sao']].rename(columns={'noi_dung_binh_luan_sai_chinh_ta': 'noi_dung_binh_luan'}).head(3))
 st.dataframe(danh_gia[['noi_dung_binh_luan_sai_chinh_ta', 'so_sao']].rename(columns={'noi_dung_binh_luan_sai_chinh_ta': 'noi_dung_binh_luan'}).tail(3)) 
 
-st.write("##### 2. Thống kê số sao và các nhãn")
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>2. Thống kê số sao và các nhãn:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 # Chọn cột danh mục cần hiển thị
 cat_cols = ['so_sao', 'label']
 
-# Giao diện với Streamlit
-st.write("###### a.Theo số sao")
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 15px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>🌟 Theo số sao:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 # Tạo biểu đồ cho cột `so_sao` với màu gradient từ đỏ đến xanh lá cây
 so_sao_counts = danh_gia['so_sao'].value_counts().reset_index()
 so_sao_counts.columns = ['so_sao', 'count']
@@ -45,7 +145,23 @@ fig_so_sao = px.bar(
 )
 st.plotly_chart(fig_so_sao, use_container_width=True)
 
-st.write("###### b.Theo nhãn: tích cực - bình thường - tiêu cực")
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 15px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>😊 Theo nhãn: tích cực - bình thường - tiêu cực:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 # Tạo biểu đồ cho cột `label` với màu xanh cho `positive`
 label_counts = danh_gia['label'].value_counts().reset_index()
 label_counts.columns = ['label', 'count']
@@ -60,8 +176,41 @@ fig_label = px.bar(
 )
 st.plotly_chart(fig_label, use_container_width=True)
 
-st.write("##### 3. Đánh giá kết quả mô hình")
-st.write("###### a. Bảng đánh giá chung")
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.8em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>3. Đánh giá kết quả mô hình:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
+
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 15px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>📋 Bảng đánh giá chung:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 file_path = 'saved_models/model_results.csv'
 data = pd.read_csv(file_path, delimiter=",")
 # Tìm các cột có giá trị cao nhất
@@ -73,7 +222,23 @@ styled_data = data.style.apply(highlight_max)
 # Hiển thị DataFrame với Streamlit
 st.dataframe(styled_data)
 
-st.write("###### b. Chi tiết mô hình")
+st.markdown(
+        """
+        <style>
+        .intro-paragraph {
+            text-indent: 15px; /* Thụt lề đầu dòng */
+            margin-left: 15px; /* Thụt toàn bộ đoạn văn vào */
+            font-size: 1.5em; /* Kích thước chữ */
+            line-height: 1.5; /* Khoảng cách dòng */
+            text-align: justify; /* Canh đều đoạn văn */
+            font-style: italic; /* In nghiêng đoạn văn */
+        }
+        </style>
+        <p class="intro-paragraph">
+        <strong>📝 Chi tiết mô hình:</strong>
+        </p>
+        """,
+        unsafe_allow_html=True)
 # Tạo menu lựa chọn tab với 3 mô hình
 # Tạo 3 cột
 col1, col2, col3 = st.columns(3)
