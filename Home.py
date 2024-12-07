@@ -21,7 +21,16 @@ st.markdown(
     ###### Giới thiệu doanh nghiệp: HASAKI.VN
     HASAKI.VN là hệ thống cửa hàng mỹ phẩm chính hãng và dịch vụ chăm sóc sắc đẹp với quy mô toàn quốc.
     Đối tác chiến lược của nhiều thương hiệu lớn tại thị trường Việt Nam.
-    
+    """
+)
+
+# Đường link của ảnh
+image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTtQEgvJla7l_AE8ew10P-7CMZ28Mp30uEPQ&s'
+# Hiển thị ảnh từ đường link
+st.image(image_url, use_column_width=True)
+
+st.markdown(
+    """    
     ###### Nhu cầu của khách hàng: Lựa chọn sản phẩm, xem đánh giá, nhận xét và đặt mua trực tuyến.
     
     ###### Vấn đề đặt ra: Các nhãn hàng cần hiểu rõ hơn cảm xúc, ý kiến của khách hàng về sản phẩm và dịch vụ.
@@ -34,7 +43,6 @@ st.markdown(
 
     """
 )
-
 
 
 
