@@ -1,0 +1,22 @@
+Model,Label,Sub-label,Value
+Extra Trees Classifier,negative,precision,0.8702928870292888
+Extra Trees Classifier,negative,recall,0.896551724137931
+Extra Trees Classifier,negative,f1-score,0.8832271762208069
+Extra Trees Classifier,negative,support,232.0
+Extra Trees Classifier,neutral,precision,0.995260663507109
+Extra Trees Classifier,neutral,recall,0.8267716535433071
+Extra Trees Classifier,neutral,f1-score,0.9032258064516129
+Extra Trees Classifier,neutral,support,254.0
+Extra Trees Classifier,positive,precision,0.987336840054549
+Extra Trees Classifier,positive,recall,0.9943103786541103
+Extra Trees Classifier,positive,f1-score,0.9908113391984361
+Extra Trees Classifier,positive,support,5097.0
+Extra Trees Classifier,accuracy,N/A,0.9826258284076661
+Extra Trees Classifier,macro avg,precision,0.9509634635303156
+Extra Trees Classifier,macro avg,recall,0.9058779187784495
+Extra Trees Classifier,macro avg,f1-score,0.9257547739569519
+Extra Trees Classifier,macro avg,support,5583.0
+Extra Trees Classifier,weighted avg,precision,0.9828336077520395
+Extra Trees Classifier,weighted avg,recall,0.9826258284076661
+Extra Trees Classifier,weighted avg,f1-score,0.9823559834526896
+Extra Trees Classifier,weighted avg,support,5583.0

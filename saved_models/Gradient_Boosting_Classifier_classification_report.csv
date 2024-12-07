@@ -1,0 +1,22 @@
+Model,Label,Sub-label,Value
+Gradient Boosting Classifier,negative,precision,0.2920634920634921
+Gradient Boosting Classifier,negative,recall,0.7931034482758621
+Gradient Boosting Classifier,negative,f1-score,0.4269141531322506
+Gradient Boosting Classifier,negative,support,232.0
+Gradient Boosting Classifier,neutral,precision,0.9636363636363636
+Gradient Boosting Classifier,neutral,recall,0.20866141732283464
+Gradient Boosting Classifier,neutral,f1-score,0.343042071197411
+Gradient Boosting Classifier,neutral,support,254.0
+Gradient Boosting Classifier,positive,precision,0.9624336463862802
+Gradient Boosting Classifier,positive,recall,0.9248577594663527
+Gradient Boosting Classifier,positive,f1-score,0.943271635817909
+Gradient Boosting Classifier,positive,support,5097.0
+Gradient Boosting Classifier,accuracy,N/A,0.8867992118932474
+Gradient Boosting Classifier,macro avg,precision,0.739377834028712
+Gradient Boosting Classifier,macro avg,recall,0.6422075416883498
+Gradient Boosting Classifier,macro avg,f1-score,0.5710759533825235
+Gradient Boosting Classifier,macro avg,support,5583.0
+Gradient Boosting Classifier,weighted avg,precision,0.934631320464488
+Gradient Boosting Classifier,weighted avg,recall,0.8867992118932474
+Gradient Boosting Classifier,weighted avg,f1-score,0.894506949198407
+Gradient Boosting Classifier,weighted avg,support,5583.0
