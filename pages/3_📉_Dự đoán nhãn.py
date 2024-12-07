@@ -399,49 +399,63 @@ if type=="Nhập bình luận":
     if text!="":
         flag = True
 
-        st.write('⏳ Đang xử lý dữ liệu ⏳')
+        st.markdown(
+                f"""
+                <style>
+                .intro-paragraph {{
+                    text-indent: 0px; /* Thụt lề đầu dòng */
+                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1em; /* Kích thước chữ */
+                    line-height: 1.5; /* Khoảng cách dòng */
+                    text-align: justify; /* Canh đều đoạn văn */
+                    font-style: italic; /* In nghiêng đoạn văn */
+                }}
+                </style>
+                <p class="intro-paragraph">
+                ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
+                </p>
+                """,
+                unsafe_allow_html=True)
+        
         du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
         du_doan_combined = x_with_tfidf_model(du_doan, model_path='saved_models/tfidf_model.pkl')
-
-        # Tải mô hình
-        st.write(f"⏳ Đang tải mô hình ⏳")
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         st.markdown(
                 f"""
                 <style>
                 .intro-paragraph {{
-                    text-indent: 15px; /* Thụt lề đầu dòng */
-                    margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.8em; /* Kích thước chữ */
+                    text-indent: 0px; /* Thụt lề đầu dòng */
+                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.5em; /* Kích thước chữ */
                     line-height: 1.5; /* Khoảng cách dòng */
                     text-align: justify; /* Canh đều đoạn văn */
                     font-style: italic; /* In nghiêng đoạn văn */
                 }}
                 </style>
                 <p class="intro-paragraph">
-                <strong>Nội dung bình luận:</strong> {text}
+                <strong>💬 Nội dung bình luận:</strong> {text}
                 </p>
                 """,
                 unsafe_allow_html=True)
 
         # Dự đoán nhãn
         predictions = loaded_model.predict(du_doan_combined)
-        st.write(f"Dự đoán là nhãn: {predictions}")
+        st.write(f"🧮 Dự đoán là nhãn: {predictions}")
         st.markdown(
                 f"""
                 <style>
                 .intro-paragraph {{
-                    text-indent: 15px; /* Thụt lề đầu dòng */
-                    margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.8em; /* Kích thước chữ */
+                    text-indent: 0px; /* Thụt lề đầu dòng */
+                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.5em; /* Kích thước chữ */
                     line-height: 1.5; /* Khoảng cách dòng */
                     text-align: justify; /* Canh đều đoạn văn */
                     font-style: italic; /* In nghiêng đoạn văn */
                 }}
                 </style>
                 <p class="intro-paragraph">
-                <strong>Dự đoán là nhãn:</strong> {predictions}
+                <strong>🔎 Dự đoán là nhãn:</strong> {predictions}
                 </p>
                 """,
                 unsafe_allow_html=True)
@@ -454,16 +468,16 @@ if type=="Nhập bình luận":
                 f"""
                 <style>
                 .intro-paragraph {{
-                    text-indent: 15px; /* Thụt lề đầu dòng */
-                    margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.8em; /* Kích thước chữ */
+                    text-indent: 0px; /* Thụt lề đầu dòng */
+                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.5em; /* Kích thước chữ */
                     line-height: 1.5; /* Khoảng cách dòng */
                     text-align: justify; /* Canh đều đoạn văn */
                     font-style: italic; /* In nghiêng đoạn văn */
                 }}
                 </style>
                 <p class="intro-paragraph">
-                <strong>Xác xuất của các nhãn:</strong> {predictions}
+                <strong>🧮 Xác xuất của các nhãn:</strong>
                 </p>
                 """,
                 unsafe_allow_html=True)
