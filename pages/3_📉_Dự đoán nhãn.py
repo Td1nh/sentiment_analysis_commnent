@@ -379,22 +379,22 @@ if type=="Tải lên":
         st.dataframe(du_doan)
 
         st.markdown(
-                f"""
-                <style>
-                .intro-paragraph {{
-                    text-indent: 0px; /* Thụt lề đầu dòng */
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 0.5em; /* Kích thước chữ */
-                    line-height: 1; /* Khoảng cách dòng */
-                    text-align: center; /* Canh đều đoạn văn */
-                    font-style: italic; /* In nghiêng đoạn văn */
-                }}
-                </style>
-                <p class="intro-paragraph">
-                ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
-                </p>
-                """,
-                unsafe_allow_html=True)
+            f"""
+            <style>
+            .intro-paragraph {{
+                text-indent: 0px; /* Thụt lề đầu dòng */
+                margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                font-size: 0.5em; /* Kích thước chữ nhỏ */
+                line-height: 1; /* Khoảng cách dòng */
+                text-align: center; /* Canh giữa đoạn văn */
+                font-style: italic; /* In nghiêng đoạn văn */
+            }}
+            </style>
+            <p class="intro-paragraph">
+            ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
+            </p>
+            """,
+            unsafe_allow_html=True)
         # Lưu ý: Cần cung cấp các tham số như processor, positive_words, negative_words, positive_emojis, negative_emojis.
         df_processed = du_doan['noi_dung_binh_luan'].apply(
             lambda x: preprocess_sentiment_text(x, processor, positive_words, negative_words, positive_emojis, negative_emojis)
@@ -461,22 +461,22 @@ if type=="Nhập bình luận":
         flag = True
 
         st.markdown(
-                f"""
-                <style>
-                .intro-paragraph {{
-                    text-indent: 0px; /* Thụt lề đầu dòng */
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 0.5em; /* Kích thước chữ */
-                    line-height: 1; /* Khoảng cách dòng */
-                    text-align: center; /* Canh đều đoạn văn */
-                    font-style: italic; /* In nghiêng đoạn văn */
-                }}
-                </style>
-                <p class="intro-paragraph">
-                ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
-                </p>
-                """,
-                unsafe_allow_html=True)
+            f"""
+            <style>
+            .intro-paragraph {{
+                text-indent: 0px; /* Thụt lề đầu dòng */
+                margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                font-size: 0.5em; /* Kích thước chữ nhỏ */
+                line-height: 1; /* Khoảng cách dòng */
+                text-align: center; /* Canh giữa đoạn văn */
+                font-style: italic; /* In nghiêng đoạn văn */
+            }}
+            </style>
+            <p class="intro-paragraph">
+            ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
+            </p>
+            """,
+            unsafe_allow_html=True)
         
         du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
         du_doan_combined = x_with_tfidf_model(du_doan, model_path='saved_models/tfidf_model.pkl')
