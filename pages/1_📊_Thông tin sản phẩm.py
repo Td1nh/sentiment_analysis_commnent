@@ -278,12 +278,12 @@ st.markdown(
         margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
         font-size: 1.8em; /* Kích thước chữ */
         line-height: 1.5; /* Khoảng cách dòng */
-        text-align: center; /* Canh đều đoạn văn */
+        text-align: justify; /* Canh đều đoạn văn */
         font-style: italic; /* In nghiêng đoạn văn */
     }
     </style>
     <p class="intro-paragraph">
-    ⌨️⌨️⌨️   Mời bạn nhập tên sản phẩm cần tìm    ⌨️⌨️⌨️
+    <strong>Chọn sản phẩm:</strong>
     </p>
     """,
     unsafe_allow_html=True
@@ -297,12 +297,12 @@ st.markdown(
         margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
         font-size: 1.8em; /* Kích thước chữ */
         line-height: 1.5; /* Khoảng cách dòng */
-        text-align: justify; /* Canh đều đoạn văn */
+        text-align: center; /* Canh đều đoạn văn */
         font-style: italic; /* In nghiêng đoạn văn */
     }
     </style>
     <p class="intro-paragraph">
-    <strong>Chọn sản phẩm:</strong>
+    ⌨️⌨️⌨️   Mời bạn nhập tên sản phẩm cần tìm    ⌨️⌨️⌨️
     </p>
     """,
     unsafe_allow_html=True
