@@ -324,7 +324,7 @@ if 'selected_ma_san_pham' not in st.session_state:
     # Nếu chưa có, thiết lập giá trị mặc định là None hoặc ID sản phẩm đầu tiên
     st.session_state.selected_ma_san_pham = None
 
-product_options = [(row['ten_san_pham']) for index, row in st.session_state.random_products.iterrows()]
+product_options = [(row['ten_san_pham']) for row in st.session_state.random_products.iterrows()]
 st.session_state.random_products
 
 # Tạo một dropdown với options là các tuple này
