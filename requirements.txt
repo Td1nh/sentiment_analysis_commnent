@@ -1,10 +1,9 @@
-streamlit
-maturin
-numpy
-pandas
-underthesea
+streamlit==1.40.2
+numpy==1.26.4
+pandas==2.2.3
+underthesea==6.8.4
 scipy
-joblib
+joblib==1.4.0
 regex
 plotly
 streamlit_searchbox
