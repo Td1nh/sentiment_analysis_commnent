@@ -5,6 +5,7 @@ from fuzzywuzzy import process
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import plotly.express as px
+import os
 
 # ================================== FUNCTION LIÊN QUAN ===================================
 # Tìm từ liên quan
@@ -35,6 +36,12 @@ def generate_wordcloud(text, colormap, title):
 def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_path):
     ma_sp = san_pham[san_pham['ten_san_pham']==selected_product]['ma_san_pham'].iloc[0]
     danh_gia_lien_quan = danh_gia[danh_gia['ma_san_pham']==ma_sp]
+
+    # Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
+    folder = os.path.dirname(save_path)
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+        
     # Lọc các bình luận theo từng cảm xúc và xử lý NaN
     pos = ' '.join(danh_gia_lien_quan[(danh_gia_lien_quan['label'] == 'positive') & (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())]['noi_dung_binh_luan_processed'])
     neu = ' '.join(danh_gia_lien_quan[(danh_gia_lien_quan['label'] == 'neutral') & (~danh_gia_lien_quan['noi_dung_binh_luan_processed'].isna())]['noi_dung_binh_luan_processed'])
