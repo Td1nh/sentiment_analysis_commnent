@@ -9,6 +9,7 @@ from pyvi import ViPosTagger, ViTokenizer
 
 
 # ================================= DATA SỬ DỤNG CHO HÀM ===================================
+#################
 #LOAD EMOJICON
 file = open('files/emojicon.txt', 'r', encoding="utf8")
 emoji_lst = file.read().split('\n')
@@ -21,42 +22,6 @@ file.close()
 #################
 #LOAD TEENCODE & ABBREVIATION
 file = open('files/teencode.txt', 'r', encoding="utf8")
-teen_lst = file.read().split('\n')
-teen_dict = {}
-for line in teen_lst:
-    key, value = line.split('\t')
-    teen_dict[key] = str(value)
-file.close()
-
-###############
-#LOAD TRANSLATE ENGLISH -> VNMESE
-file = open('files/english-vnmese.txt', 'r', encoding="utf8")
-english_lst = file.read().split('\n')
-english_dict = {}
-for line in english_lst:
-    key, value = line.split('\t')
-    english_dict[key] = str(value)
-file.close()
-
-################
-#LOAD wrong words
-file = open('files/wrong-word.txt', 'r', encoding="utf8")
-wrong_lst = file.read().split('\n')
-file.close()
-
-#################
-#LOAD EMOJICON
-file = open('G:/My Drive/DL07_K299_TrangThuDinh_NguyenQuangKhai/Project1/files/emojicon.txt', 'r', encoding="utf8")
-emoji_lst = file.read().split('\n')
-emoji_dict = {}
-for line in emoji_lst:
-    key, value = line.split('\t')
-    emoji_dict[key] = str(value)
-file.close()
-
-#################
-#LOAD TEENCODE & ABBREVIATION
-file = open('G:/My Drive/DL07_K299_TrangThuDinh_NguyenQuangKhai/Project1/files/teencode.txt', 'r', encoding="utf8")
 teen_lst = file.read().split('\n')
 teen_dict = {}
 for line in teen_lst:
