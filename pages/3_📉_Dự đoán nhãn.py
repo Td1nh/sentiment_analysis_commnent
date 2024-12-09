@@ -473,9 +473,12 @@ if type=="Tải lên":
         class_labels = loaded_model.classes_
         prob_df = pd.DataFrame(probabilities, columns=class_labels)
         result = pd.merge(du_doan['noi_dung_binh_luan'], prob_df, left_index=True, right_index=True)
+        result["Predicted Label"] = predictions
+
         def highlight_max_in_row(row):
-            # So sánh từ cột thứ 2 trở đi và áp dụng màu vàng cho giá trị lớn nhất
-            return ['background-color: yellow' if v == row[1:].max() else '' for v in row]
+            styles = ['background-color: yellow' if v == row[:-1].max() else '' for v in row[:-1]]  # Không highlight cột nhãn
+            styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label"
+            return styles
         st.dataframe(result.style.apply(highlight_max_in_row, axis=1))
 
 
