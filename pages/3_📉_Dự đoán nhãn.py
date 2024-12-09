@@ -444,7 +444,7 @@ if type=="Tải lên":
         # Merging kết quả vào một DataFrame duy nhất
         du_doan = pd.concat(df_processed.tolist(), ignore_index=True)
 
-        du_doan_combined = x_with_tfidf_model(du_doan, model_path='saved_models/tfidf_model.pkl')
+        du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         # Dự đoán nhãn
@@ -521,7 +521,7 @@ if type=="Nhập bình luận":
             unsafe_allow_html=True)
         
         du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
-        du_doan_combined = x_with_tfidf_model(du_doan, model_path='saved_models/tfidf_model.pkl')
+        du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         st.markdown(
