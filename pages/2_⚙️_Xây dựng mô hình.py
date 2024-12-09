@@ -91,8 +91,8 @@ st.markdown(
         </p>
         """,
         unsafe_allow_html=True)
-st.dataframe(danh_gia[['noi_dung_binh_luan_sai', 'so_sao']].head(3))
-st.dataframe(danh_gia[['noi_dung_binh_luan_sai', 'so_sao']].tail(3)) 
+st.dataframe(danh_gia[['noi_dung_binh_luan', 'so_sao']].head(3))
+st.dataframe(danh_gia[['noi_dung_binh_luan', 'so_sao']].tail(3)) 
 
 st.markdown(
         """
