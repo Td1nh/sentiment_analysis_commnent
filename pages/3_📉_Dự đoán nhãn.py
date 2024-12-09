@@ -357,8 +357,6 @@ st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 processor = VietnameseTextProcessor(
     emoji_dict=emoji_dict,
     teen_dict=teen_dict,
-    wrong_lst=wrong_lst,
-    english_dict=english_dict,
     stopwords_lst=stopwords_lst
 )
 flag = False
