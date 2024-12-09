@@ -476,8 +476,8 @@ if type=="Tải lên":
         result["Predicted Label"] = predictions
 
         def highlight_max_in_row(row):
-            styles = ['background-color: yellow' if v == row[:-1].max() else '' for v in row[:-1]]  # Không highlight cột nhãn
-            styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label"
+            styles = ['background-color: yellow' if v == row[1:-1].max() else '' for v in row[1:-1]]  # Không highlight cột đầu và cột cuối
+            styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label" (cột cuối)
             return styles
         st.dataframe(result.style.apply(highlight_max_in_row, axis=1))
 
