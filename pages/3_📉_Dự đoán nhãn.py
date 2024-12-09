@@ -427,7 +427,7 @@ if type=="Tải lên":
 
         du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
 
-        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
+        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode=None)
 
         # Dự đoán nhãn
         predictions = loaded_model.predict(du_doan_combined)
