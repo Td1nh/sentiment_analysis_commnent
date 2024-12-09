@@ -45,12 +45,32 @@ wrong_lst = file.read().split('\n')
 file.close()
 
 #################
+#LOAD EMOJICON
+file = open('G:/My Drive/DL07_K299_TrangThuDinh_NguyenQuangKhai/Project1/files/emojicon.txt', 'r', encoding="utf8")
+emoji_lst = file.read().split('\n')
+emoji_dict = {}
+for line in emoji_lst:
+    key, value = line.split('\t')
+    emoji_dict[key] = str(value)
+file.close()
+
+#################
+#LOAD TEENCODE & ABBREVIATION
+file = open('G:/My Drive/DL07_K299_TrangThuDinh_NguyenQuangKhai/Project1/files/teencode.txt', 'r', encoding="utf8")
+teen_lst = file.read().split('\n')
+teen_dict = {}
+for line in teen_lst:
+    key, value = line.split('\t')
+    teen_dict[key] = str(value)
+file.close()
+
+#################
 #LOAD STOPWORDS
 file = open('files/vietnamese-stopwords.txt', 'r', encoding="utf8")
 stopwords_lst = file.read().split('\n')
 file.close()
 
-#LOAD TRANSLATE ENGLISH -> VNMESE
+#LOAD CORRECTION
 file = open('files/corrected_word.txt', 'r', encoding="utf8")
 corrected_word_lst = file.read().split('\n')
 corrected_word_dict = {}
@@ -80,7 +100,7 @@ negative_emojis = file.read().split('\n')
 file.close()
 
 # ================================== FUNCTION LIÊN QUAN ===================================
-# Thêm dấu cách trước emoji nếu chưa có
+# THÊM DẤU CÁCH TRƯỚC EMOJI
 def add_emoji_spaces(text):
         # Find and add spaces around emojis
         for emoji in emoji_dict.keys():
@@ -88,8 +108,10 @@ def add_emoji_spaces(text):
             text = text.replace(emoji, f' {emoji} ')
         return text
 
-# SỬA EMOJI, TEENCODE, SAI CHÍNH TẢ, BỎ KÝ TỰ ĐẶC BIỆT, TIẾNG ANH SANG TIẾNG VIỆT
-def process_text(text, emoji_dict, teen_dict, english_dict):
+
+
+# SỬA EMOJI, TEENCODE, SAI CHÍNH TẢ, BỎ KÝ TỰ ĐẶC BIỆT
+def process_text(text, emoji_dict, teen_dict):
     # Apply emoji space handling first
     document = add_emoji_spaces(text.lower())
     document = document.replace("'",'')
@@ -106,14 +128,13 @@ def process_text(text, emoji_dict, teen_dict, english_dict):
         pattern = r'(?i)\b[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđ]+\b'
         sentence = ' '.join(regex.findall(pattern,sentence))
 
-        # TRANSFORM ENGLISH TO VIETNAMESE
-        # sentence = ' '.join(english_dict[word] if word in english_dict else word for word in sentence.split())
         new_sentence = new_sentence + sentence + '. '
-
     document = new_sentence
     # DEL excess blank space
     document = regex.sub(r'\s+', ' ', document).strip()
     return document
+
+
 
 # CHUẨN HÓA UNICODE TIẾNG VIỆT
 def loaddicchar():
@@ -133,6 +154,8 @@ def covert_unicode(txt):
     return regex.sub(
         r'à|á|ả|ã|ạ|ầ|ấ|ẩ|ẫ|ậ|ằ|ắ|ẳ|ẵ|ặ|è|é|ẻ|ẽ|ẹ|ề|ế|ể|ễ|ệ|ì|í|ỉ|ĩ|ị|ò|ó|ỏ|õ|ọ|ồ|ố|ổ|ỗ|ộ|ờ|ớ|ở|ỡ|ợ|ù|ú|ủ|ũ|ụ|ừ|ứ|ử|ữ|ự|ỳ|ý|ỷ|ỹ|ỵ|À|Á|Ả|Ã|Ạ|Ầ|Ấ|Ẩ|Ẫ|Ậ|Ằ|Ắ|Ẳ|Ẵ|Ặ|È|É|Ẻ|Ẽ|Ẹ|Ề|Ế|Ể|Ễ|Ệ|Ì|Í|Ỉ|Ĩ|Ị|Ò|Ó|Ỏ|Õ|Ọ|Ồ|Ố|Ổ|Ỗ|Ộ|Ờ|Ớ|Ở|Ỡ|Ợ|Ù|Ú|Ủ|Ũ|Ụ|Ừ|Ứ|Ử|Ữ|Ự|Ỳ|Ý|Ỷ|Ỹ|Ỵ',
         lambda x: dicchar[x.group()], txt)
+
+
 
 # NỐI CÁC TỪ CẦN XỬ LÝ ĐẶC BIỆT
 def process_special_word(text):
@@ -154,73 +177,66 @@ def process_special_word(text):
         else:
             result.append(current_word)
             i += 1
-
     return ' '.join(result)
 
 # CHUẨN HÓA TỪ CÓ KÝ TỰ LẶP
 def normalize_repeated_characters(text):
     return re.sub(r'(.)\1+', r'\1', text)
 
+
+
+# NỐI CÁC TỪ GHÉP
 def process_postag_pyvi(text):
     # Tách câu
     sentences = text.split('.')  # Chia các câu dựa trên dấu chấm.
-    
-    lst_word_type = ['N', 'Np', 'A', 'V', 'R']
+    lst_word_type = ['A', 'V', 'R']
     processed_sentences = []
-
     for sentence in sentences:
         # Bỏ khoảng trắng thừa
         sentence = sentence.strip()
         if not sentence:
             continue
-
         # Tokenize và POS tagging
         tokens = ViTokenizer.tokenize(sentence)
         words, pos_tags = ViPosTagger.postagging(tokens)
-
         # Giữ lại các từ thuộc POS mong muốn
         filtered_words = [word for word, pos in zip(words, pos_tags) if pos in lst_word_type]
-
         # Ghép các từ lại thành câu
         processed_sentences.append(' '.join(filtered_words))
-
     # Ghép lại các câu thành văn bản hoàn chỉnh
     result = ' '.join(processed_sentences).strip()
     return result
 
 
-# REMOVE CÁC TỪ SAI VÀ CÁC STOPWORD
-def remove_stopword(text, stopwords, wrong_lst):
+
+# LOẠI BỎ STOPWORD
+def remove_stopword(text, stopwords):
     ###### REMOVE stop words
     document = ' '.join('' if word in stopwords else word for word in text.split())
-
-    ###### DEL wrong words
-    document = ' '.join('' if word in wrong_lst else word for word in document.split())
 
     ###### DEL excess blank space
     document = regex.sub(r'\s+', ' ', document).strip()
     return document
 
+
+# CHỈNH SỬA CHÍNH TẢ
 def correct_spelling(text, corrected_word_dict):
     # Tạo regex pattern để tìm các từ cần thay thế
     pattern = regex.compile(r'\b(' + '|'.join(regex.escape(key) for key in corrected_word_dict.keys()) + r')\b')
-
     # Hàm thay thế từ sai thành từ đúng
     def replace_word(match):
         word = match.group(0)
         return corrected_word_dict.get(word, word)
-
     # Thực hiện thay thế
     corrected_text = pattern.sub(replace_word, text)
     return corrected_text
 
 
+# PIPELINE
 class VietnameseTextProcessor:
-    def __init__(self, emoji_dict, teen_dict, wrong_lst, english_dict, stopwords_lst):
+    def __init__(self, emoji_dict, teen_dict, stopwords_lst):
         self.emoji_dict = emoji_dict
         self.teen_dict = teen_dict
-        self.wrong_lst = wrong_lst
-        self.english_dict = english_dict
         self.stopwords_lst = stopwords_lst
 
     def process_pipeline(self, text):
@@ -229,29 +245,28 @@ class VietnameseTextProcessor:
 
         text = add_emoji_spaces(text)
 
-        text = process_text(text, emoji_dict, teen_dict, english_dict)
+        text = process_text(text, emoji_dict, teen_dict)
 
         text = correct_spelling(text, corrected_word_dict)
 
         text = covert_unicode(text)
 
-        text = process_special_word(text)
-
         text = normalize_repeated_characters(text)
 
         text = process_postag_pyvi(text)
 
-        text = remove_stopword(text, stopwords_lst, wrong_lst)
+        text = process_special_word(text)
+        
+        text = remove_stopword(text, stopwords_lst)
         return text
 
 # Khởi tạo processor
 processor = VietnameseTextProcessor(
     emoji_dict=emoji_dict,
     teen_dict=teen_dict,
-    wrong_lst=wrong_lst,
-    english_dict=english_dict,
     stopwords_lst=stopwords_lst
 )
+
 
 def find_words(text, word_list):
     text_lower = text.lower()
@@ -264,6 +279,7 @@ def find_words(text, word_list):
           found_words.append(text_word)
           word_count += 1
     return word_count, found_words
+
 
 def sentiment_pipeline(document, positive_words, negative_words, positive_emojis, negative_emojis):
     # Calculate word sentiment
@@ -283,8 +299,9 @@ def sentiment_pipeline(document, positive_words, negative_words, positive_emojis
 def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
     # Tiền xử lý văn bản
     processed_text = processor.process_pipeline(text)
+    count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(text))))
     # Dự đoán cảm xúc
-    result = sentiment_pipeline(processed_text, positive_words, negative_words, positive_emojis, negative_emojis)
+    result = sentiment_pipeline(count_text, positive_words, negative_words, positive_emojis, negative_emojis)
     # Tạo DataFrame chứa kết quả
     data = {
         "noi_dung_binh_luan": [text],
@@ -298,9 +315,9 @@ def preprocess_sentiment_text(text, processor, positive_words, negative_words, p
 
 
 def x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl'):
-    # Tải mô hình TF-IDF và vectorizer từ file
+    # Tải mô hình và vectorizer từ file
     train, count_vectorizer = joblib.load(model_path)
-    # Chuyển văn bản đã xử lý thành vector TF-IDF
+    # Chuyển văn bản đã xử lý thành vector 
     du_doan_vec = count_vectorizer.transform(du_doan['noi_dung_binh_luan_processed'])
     # Kết hợp các đặc trưng số
     du_doan_num = du_doan[['do_dai', 'positive_count', 'negative_count']].values
@@ -443,8 +460,10 @@ if type=="Tải lên":
         )
         # Merging kết quả vào một DataFrame duy nhất
         du_doan = pd.concat(df_processed.tolist(), ignore_index=True)
+        st.dataframe(du_doan)
 
         du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
+
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
         # Dự đoán nhãn
@@ -521,6 +540,9 @@ if type=="Nhập bình luận":
             unsafe_allow_html=True)
         
         du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
+
+        st.dataframe(du_doan)
+
         du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
         loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
 
@@ -585,8 +607,12 @@ if type=="Nhập bình luận":
                 unsafe_allow_html=True)
         class_labels = loaded_model.classes_
         prob_df = pd.DataFrame(probabilities, columns=class_labels)
+        prob_df["Predicted Label"] = predictions
+
         def highlight_max_in_row(row):
-            return ['background-color: yellow' if v == row.max() else '' for v in row]
+            styles = ['background-color: yellow' if v == row[:-1].max() else '' for v in row[:-1]]  # Không highlight cột nhãn
+            styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label"
+            return styles
         styled_df = prob_df.style.apply(highlight_max_in_row, axis=1)
         st.dataframe(styled_df)
 

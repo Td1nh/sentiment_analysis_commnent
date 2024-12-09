@@ -415,4 +415,6 @@ view	phong cảnh
 hd	hóa đơn
 sp	sản phẩm
 shiper	người giao hàng
-dãng	dàng
+khum	không
+srm	sữa_rửa_mặt
+kcn	kem_chống_nắng

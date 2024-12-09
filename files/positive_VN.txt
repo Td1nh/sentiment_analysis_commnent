@@ -76,3 +76,7 @@ mịn_màng
 không_bị
 mùi_thơm
 không_làm
+ok
+tuyệt
+ưa_thích
+nhiệt_tình

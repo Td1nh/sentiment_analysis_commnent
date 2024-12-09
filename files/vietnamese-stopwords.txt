@@ -154,7 +154,6 @@ bởi_vì
 bởi_vậy
 bởi_đâu
 bức
-cao
 cao_lâu
 cao_ráo
 cao_răng
@@ -1916,7 +1915,7 @@ hasaki
 chữ
 mã_vạch
 sài
-cửa tiệm
+cửa_tiệm
 hàng
 xài
 mặt
@@ -1938,3 +1937,14 @@ miêu_tả
 rất
 cực_kỳ
 lắm
+sữa_rửa_mặt
+kem_chống_nắng
+mặt_nạ
+cửa tiệm
+tẩy_trang
+mẫu
+không_nữa
+tột_độ
+tuýp
+mua
+khá
