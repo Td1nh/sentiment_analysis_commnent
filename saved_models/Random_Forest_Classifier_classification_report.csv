@@ -1,22 +1,22 @@
 Model,Label,Sub-label,Value
-Random Forest Classifier,negative,precision,0.8739495798319328
-Random Forest Classifier,negative,recall,0.896551724137931
-Random Forest Classifier,negative,f1-score,0.8851063829787235
-Random Forest Classifier,negative,support,232.0
-Random Forest Classifier,neutral,precision,0.995260663507109
-Random Forest Classifier,neutral,recall,0.8267716535433071
-Random Forest Classifier,neutral,f1-score,0.9032258064516129
-Random Forest Classifier,neutral,support,254.0
-Random Forest Classifier,positive,precision,0.9873393065835606
-Random Forest Classifier,positive,recall,0.9945065724936237
-Random Forest Classifier,positive,f1-score,0.9909099794741473
-Random Forest Classifier,positive,support,5097.0
-Random Forest Classifier,accuracy,N/A,0.9828049435787212
-Random Forest Classifier,macro avg,precision,0.9521831833075342
-Random Forest Classifier,macro avg,recall,0.9059433167249539
-Random Forest Classifier,macro avg,f1-score,0.9264140563014945
-Random Forest Classifier,macro avg,support,5583.0
-Random Forest Classifier,weighted avg,precision,0.982987812414154
-Random Forest Classifier,weighted avg,recall,0.9828049435787212
-Random Forest Classifier,weighted avg,f1-score,0.9825241270051052
-Random Forest Classifier,weighted avg,support,5583.0
+Random Forest Classifier,negative,precision,0.7735849056603774
+Random Forest Classifier,negative,recall,0.9111111111111111
+Random Forest Classifier,negative,f1-score,0.8367346938775511
+Random Forest Classifier,negative,support,225.0
+Random Forest Classifier,neutral,precision,0.9754901960784313
+Random Forest Classifier,neutral,recall,0.7896825396825397
+Random Forest Classifier,neutral,f1-score,0.8728070175438597
+Random Forest Classifier,neutral,support,252.0
+Random Forest Classifier,positive,precision,0.9879047990635973
+Random Forest Classifier,positive,recall,0.9894490035169988
+Random Forest Classifier,positive,f1-score,0.9886762983209684
+Random Forest Classifier,positive,support,5118.0
+Random Forest Classifier,accuracy,N/A,0.9773011617515639
+Random Forest Classifier,macro avg,precision,0.9123266336008021
+Random Forest Classifier,macro avg,recall,0.8967475514368832
+Random Forest Classifier,macro avg,f1-score,0.8994060032474597
+Random Forest Classifier,macro avg,support,5595.0
+Random Forest Classifier,weighted avg,precision,0.9787268802131976
+Random Forest Classifier,weighted avg,recall,0.9773011617515639
+Random Forest Classifier,weighted avg,f1-score,0.9773472688740336
+Random Forest Classifier,weighted avg,support,5595.0
