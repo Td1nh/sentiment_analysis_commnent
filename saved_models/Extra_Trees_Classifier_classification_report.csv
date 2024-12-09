@@ -1,22 +1,22 @@
 Model,Label,Sub-label,Value
-Extra Trees Classifier,negative,precision,0.7915057915057915
-Extra Trees Classifier,negative,recall,0.9111111111111111
-Extra Trees Classifier,negative,f1-score,0.8471074380165289
-Extra Trees Classifier,negative,support,225.0
-Extra Trees Classifier,neutral,precision,0.961352657004831
-Extra Trees Classifier,neutral,recall,0.7896825396825397
-Extra Trees Classifier,neutral,f1-score,0.8671023965141612
-Extra Trees Classifier,neutral,support,252.0
-Extra Trees Classifier,positive,precision,0.9881068434392669
-Extra Trees Classifier,positive,recall,0.9902305588120359
-Extra Trees Classifier,positive,f1-score,0.9891675612374353
-Extra Trees Classifier,positive,support,5118.0
-Extra Trees Classifier,accuracy,N/A,0.9780160857908847
-Extra Trees Classifier,macro avg,precision,0.9136550973166297
-Extra Trees Classifier,macro avg,recall,0.8970080698685622
-Extra Trees Classifier,macro avg,f1-score,0.9011257985893751
-Extra Trees Classifier,macro avg,support,5595.0
-Extra Trees Classifier,weighted avg,precision,0.9789956206213026
-Extra Trees Classifier,weighted avg,recall,0.9780160857908847
-Extra Trees Classifier,weighted avg,f1-score,0.9779568464501307
-Extra Trees Classifier,weighted avg,support,5595.0
+Extra Trees Classifier,negative,precision,0.8357664233576643
+Extra Trees Classifier,negative,recall,0.9233870967741935
+Extra Trees Classifier,negative,f1-score,0.8773946360153257
+Extra Trees Classifier,negative,support,248.0
+Extra Trees Classifier,neutral,precision,0.9577464788732394
+Extra Trees Classifier,neutral,recall,0.8464730290456431
+Extra Trees Classifier,neutral,f1-score,0.8986784140969162
+Extra Trees Classifier,neutral,support,241.0
+Extra Trees Classifier,positive,precision,0.9901224812327143
+Extra Trees Classifier,positive,recall,0.9905138339920949
+Extra Trees Classifier,positive,f1-score,0.9903181189488243
+Extra Trees Classifier,positive,support,5060.0
+Extra Trees Classifier,accuracy,N/A,0.9812578843034782
+Extra Trees Classifier,macro avg,precision,0.9278784611545392
+Extra Trees Classifier,macro avg,recall,0.9201246532706439
+Extra Trees Classifier,macro avg,f1-score,0.922130389687022
+Extra Trees Classifier,macro avg,support,5549.0
+Extra Trees Classifier,weighted avg,precision,0.98181775625134
+Extra Trees Classifier,weighted avg,recall,0.9812578843034782
+Extra Trees Classifier,weighted avg,f1-score,0.9812912325482444
+Extra Trees Classifier,weighted avg,support,5549.0

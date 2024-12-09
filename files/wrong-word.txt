@@ -160,7 +160,6 @@ lui
 oq
 vin
 nom
-cao
 bbb
 pk
 wi
@@ -600,7 +599,6 @@ ung
 ang
 bi
 ver
-oki
 btw
 mei
 jl

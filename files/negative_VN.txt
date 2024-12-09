@@ -72,3 +72,16 @@ tệ
 không_đạt
 không_nên
 chê
+chưa_ok
+chưa_tốt
+cọc
+chưa_đẹp
+xấu
+xấu_xí
+đen_da
+kích_ứng
+dị_ứng
+mẫn_đỏ
+mẫn
+hối_hận
+sưng
