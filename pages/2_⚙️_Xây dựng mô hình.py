@@ -215,9 +215,10 @@ file_path = 'saved_models/model_results.csv'
 data = pd.read_csv(file_path, delimiter=",")
 # Tìm các cột có giá trị cao nhất
 def highlight_max(s):
-    # Tạo một điều kiện cho các cột, bỏ qua cột cuối cùng
-    is_max = s[:-1] == s[:-1].max()
-    return ['background-color: yellow' if v else '' for v in is_max] + ['' for _ in range(1)]  # Cột cuối không tô màu
+    # Tạo một điều kiện cho các cột, bỏ qua cột đầu tiên và cột cuối cùng
+    is_max = s[1:-1] == s[1:-1].max()  # So sánh trong phạm vi từ cột thứ 2 đến cột thứ n-1
+    # Tô màu cho các giá trị lớn nhất, bỏ qua cột đầu tiên và cột cuối
+    return ['background-color: yellow' if v else '' for v in is_max] + ['', '']  # Cột đầu tiên và cột cuối không tô màu
 # Áp dụng hàm highlight_max vào DataFrame
 styled_data = data.style.apply(highlight_max)
 # Hiển thị DataFrame với Streamlit
