@@ -472,11 +472,12 @@ if type=="Tải lên":
                 unsafe_allow_html=True)
         class_labels = loaded_model.classes_
         prob_df = pd.DataFrame(probabilities, columns=class_labels)
+        prob_df["Predicted Label"] = predictions
         result = pd.merge(du_doan['noi_dung_binh_luan'], prob_df, left_index=True, right_index=True)
-        result["Predicted Label"] = predictions
-
+        
         def highlight_max_in_row(row):
             styles = ['background-color: yellow' if v == row[1:-1].max() else '' for v in row[1:-1]]  # Không highlight cột đầu và cột cuối
+            styles.insert(0, '')
             styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label" (cột cuối)
             return styles
         st.dataframe(result.style.apply(highlight_max_in_row, axis=1))
