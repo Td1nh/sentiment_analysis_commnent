@@ -1923,7 +1923,7 @@ mặt
 đợt
 loreal
 trực_tuyến
-cỏ_khô
+cỏ khô
 trang_điểm
 chủ_yếu
 chống nắng
@@ -1934,7 +1934,7 @@ bấm
 tắm
 lớp
 không_có_dữ_liệu
-sản_phẩm
-cỏ
-khô
-hasaki
+miêu_tả
+rất
+cực_kỳ
+lắm
