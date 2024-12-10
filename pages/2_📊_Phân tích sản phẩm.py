@@ -170,6 +170,64 @@ def so_luong(danh_gia_lien_quan):
     st.plotly_chart(fig2)
 
 
+# def time_series(danh_gia_lien_quan):
+#     # Xử lý cột 'nam' để đảm bảo định dạng là chuỗi và lấy phần trước dấu chấm
+#     danh_gia_lien_quan['nam'] = danh_gia_lien_quan['nam'].astype('str').str.split('.').str[0]
+
+#     # Đảm bảo thứ trong tuần sắp xếp đúng thứ tự
+#     thu_tu_thu = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'nan']
+#     danh_gia_lien_quan['thu_trong_tuan'] = pd.Categorical(danh_gia_lien_quan['thu_trong_tuan'], categories=thu_tu_thu, ordered=True)
+
+#     # Đảm bảo tháng được sắp xếp theo đúng thứ tự tháng
+#     month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'nan']
+#     danh_gia_lien_quan['thang'] = pd.Categorical(danh_gia_lien_quan['thang'], categories=month_order, ordered=True)
+
+#     years_order = sorted(danh_gia_lien_quan['nam'].unique())
+#     danh_gia_lien_quan['nam'] = pd.Categorical(danh_gia_lien_quan['nam'], categories=sorted(danh_gia_lien_quan['nam'].unique()), ordered=True)
+#     # Tạo biểu đồ cho số lượng bình luận theo Năm
+#     fig1 = px.histogram(danh_gia_lien_quan, x='nam', title='Số lượng bình luận theo Năm', color='nam', color_discrete_sequence=px.colors.qualitative.Plotly)
+#     fig1.update_layout(
+#         xaxis_title='Năm',
+#         yaxis_title='Số lượng bình luận',
+#         xaxis_tickangle=45,
+#         showlegend=False,
+#         xaxis=dict(type='category', categoryorder='array', categoryarray=years_order)   # Trục X là dạng category
+#     )
+#     fig1.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
+
+#     # Tạo biểu đồ cho số lượng bình luận theo Tháng với sắp xếp trục x theo đúng thứ tự tháng
+#     fig2 = px.histogram(danh_gia_lien_quan, x='thang', title='Số lượng bình luận theo Tháng', color='thang', color_discrete_sequence=px.colors.sequential.Blues)
+#     fig2.update_layout(
+#         xaxis_title='Tháng',
+#         yaxis_title='Số lượng bình luận',
+#         xaxis_tickangle=45,
+#         showlegend=False,
+#         xaxis=dict(
+#             type='category',
+#             categoryorder='array',
+#             categoryarray=month_order  # Sắp xếp trục x theo tháng
+#         )
+#     )
+#     fig2.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
+
+#     # Tạo biểu đồ cho số lượng bình luận theo Thứ trong tuần
+#     fig3 = px.histogram(danh_gia_lien_quan, x='thu_trong_tuan', title='Số lượng bình luận theo Thứ trong tuần', color='thu_trong_tuan', color_discrete_sequence=px.colors.sequential.Magma)
+#     fig3.update_layout(
+#         xaxis_title='Thứ trong tuần',
+#         yaxis_title='Số lượng bình luận',
+#         xaxis_tickangle=45,
+#         showlegend=False,
+#         xaxis=dict(type='category',
+#                    categoryorder='array',
+#                     categoryarray=thu_tu_thu)  # Trục X là dạng category
+#     )
+#     fig3.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
+
+#     # Hiển thị các biểu đồ trong Streamlit
+#     st.plotly_chart(fig1)
+#     st.plotly_chart(fig2)
+#     st.plotly_chart(fig3)
+
 def time_series(danh_gia_lien_quan):
     # Xử lý cột 'nam' để đảm bảo định dạng là chuỗi và lấy phần trước dấu chấm
     danh_gia_lien_quan['nam'] = danh_gia_lien_quan['nam'].astype('str').str.split('.').str[0]
@@ -182,8 +240,14 @@ def time_series(danh_gia_lien_quan):
     month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'nan']
     danh_gia_lien_quan['thang'] = pd.Categorical(danh_gia_lien_quan['thang'], categories=month_order, ordered=True)
 
+    # Đảm bảo ngày trong tháng được sắp xếp theo đúng thứ tự
+    danh_gia_lien_quan['ngay_trong_thang'] = pd.to_numeric(danh_gia_lien_quan['ngay_trong_thang'], errors='coerce')
+    ngay_order = list(range(1, 32)) + ['nan']
+    danh_gia_lien_quan['ngay_trong_thang'] = pd.Categorical(danh_gia_lien_quan['ngay_trong_thang'], categories=ngay_order, ordered=True)
+
     years_order = sorted(danh_gia_lien_quan['nam'].unique())
-    danh_gia_lien_quan['nam'] = pd.Categorical(danh_gia_lien_quan['nam'], categories=sorted(danh_gia_lien_quan['nam'].unique()), ordered=True)
+    danh_gia_lien_quan['nam'] = pd.Categorical(danh_gia_lien_quan['nam'], categories=years_order, ordered=True)
+
     # Tạo biểu đồ cho số lượng bình luận theo Năm
     fig1 = px.histogram(danh_gia_lien_quan, x='nam', title='Số lượng bình luận theo Năm', color='nam', color_discrete_sequence=px.colors.qualitative.Plotly)
     fig1.update_layout(
@@ -191,22 +255,18 @@ def time_series(danh_gia_lien_quan):
         yaxis_title='Số lượng bình luận',
         xaxis_tickangle=45,
         showlegend=False,
-        xaxis=dict(type='category', categoryorder='array', categoryarray=years_order)   # Trục X là dạng category
+        xaxis=dict(type='category', categoryorder='array', categoryarray=years_order)
     )
     fig1.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
-    # Tạo biểu đồ cho số lượng bình luận theo Tháng với sắp xếp trục x theo đúng thứ tự tháng
+    # Tạo biểu đồ cho số lượng bình luận theo Tháng
     fig2 = px.histogram(danh_gia_lien_quan, x='thang', title='Số lượng bình luận theo Tháng', color='thang', color_discrete_sequence=px.colors.sequential.Blues)
     fig2.update_layout(
         xaxis_title='Tháng',
         yaxis_title='Số lượng bình luận',
         xaxis_tickangle=45,
         showlegend=False,
-        xaxis=dict(
-            type='category',
-            categoryorder='array',
-            categoryarray=month_order  # Sắp xếp trục x theo tháng
-        )
+        xaxis=dict(type='category', categoryorder='array', categoryarray=month_order)
     )
     fig2.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
@@ -217,16 +277,30 @@ def time_series(danh_gia_lien_quan):
         yaxis_title='Số lượng bình luận',
         xaxis_tickangle=45,
         showlegend=False,
-        xaxis=dict(type='category',
-                   categoryorder='array',
-                    categoryarray=thu_tu_thu)  # Trục X là dạng category
+        xaxis=dict(type='category', categoryorder='array', categoryarray=thu_tu_thu)
     )
     fig3.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
+
+    # Tạo biểu đồ cho số lượng bình luận theo Ngày trong tháng
+    fig4 = px.histogram(danh_gia_lien_quan, x='ngay_trong_thang', title='Số lượng bình luận theo Ngày trong tháng', color='ngay_trong_thang', color_discrete_sequence=px.colors.sequential.Sunset)
+    fig4.update_layout(
+        xaxis_title='Ngày trong tháng',
+        yaxis_title='Số lượng bình luận',
+        xaxis_tickangle=45,
+        showlegend=False,
+        xaxis=dict(
+            type='category',
+            categoryorder='array',
+            categoryarray=ngay_order
+        )
+    )
+    fig4.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
     # Hiển thị các biểu đồ trong Streamlit
     st.plotly_chart(fig1)
     st.plotly_chart(fig2)
     st.plotly_chart(fig3)
+    st.plotly_chart(fig4)
 
 
 # ================================== DATA ===================================
