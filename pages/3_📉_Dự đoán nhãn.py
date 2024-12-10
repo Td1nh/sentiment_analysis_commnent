@@ -1,15 +1,15 @@
 import pandas as pd
 import streamlit as st
-from underthesea import word_tokenize, pos_tag, sent_tokenize
+from underthesea import sent_tokenize
 import regex
 import re
 import joblib
 from scipy.sparse import hstack
 from pyvi import ViPosTagger, ViTokenizer
+import string
 
 
 # ================================= DATA SỬ DỤNG CHO HÀM ===================================
-#################
 #LOAD EMOJICON
 file = open('files/emojicon.txt', 'r', encoding="utf8")
 emoji_lst = file.read().split('\n')
@@ -44,6 +44,12 @@ for line in corrected_word_lst:
     corrected_word_dict[key] = str(value)
 file.close()
 
+#################
+#LOAD KEEPWORDS
+file = open('files/keep_word.txt', 'r', encoding="utf8")
+keep_lst = file.read().split('\n')
+file.close()
+
 #LOAD positive words
 file = open('files/positive_VN.txt', 'r', encoding="utf8")
 positive_words = file.read().split('\n')
@@ -66,19 +72,25 @@ file.close()
 
 # ================================== FUNCTION LIÊN QUAN ===================================
 # THÊM DẤU CÁCH TRƯỚC EMOJI
-def add_emoji_spaces(text):
-        # Find and add spaces around emojis
-        for emoji in emoji_dict.keys():
-            # Add space before and after emoji
-            text = text.replace(emoji, f' {emoji} ')
-        return text
+def add_emoji_spaces(text, emoji_dict):
+    # Find and add spaces around emojis
+    for emoji in emoji_dict.keys():
+        # Add space before and after emoji
+        text = text.replace(emoji, f' {emoji} ')
+    # Remove punctuation
+    text = text.translate(str.maketrans(string.punctuation, ' ' * len(string.punctuation)))
+    # Replace multiple spaces with a single space
+    text = re.sub(r'\s+', ' ', text)
+    # Strip leading and trailing spaces
+    text = text.strip()
+    return text
 
 
 
 # SỬA EMOJI, TEENCODE, SAI CHÍNH TẢ, BỎ KÝ TỰ ĐẶC BIỆT
 def process_text(text, emoji_dict, teen_dict):
     # Apply emoji space handling first
-    document = add_emoji_spaces(text.lower())
+    document = add_emoji_spaces(text.lower(), emoji_dict)
     document = document.replace("'",'')
     document = regex.sub(r'\.+', ".", document)
     new_sentence = ''
@@ -89,11 +101,11 @@ def process_text(text, emoji_dict, teen_dict):
         # CONVERT TEENCODE & ABBREVIATION
         sentence = ' '.join(teen_dict[word] if word in teen_dict else word for word in sentence.split())
 
-        # DEL Punctuation & Numbers
-        pattern = r'(?i)\b[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđ]+\b'
-        sentence = ' '.join(regex.findall(pattern,sentence))
+        # # DEL Punctuation & Numbers
+        # pattern = r'(?i)\b[a-záàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđ]+\b'
+        # sentence = ' '.join(regex.findall(pattern,sentence))
 
-        new_sentence = new_sentence + sentence + '. '
+        new_sentence = new_sentence + sentence
     document = new_sentence
     # DEL excess blank space
     document = regex.sub(r'\s+', ' ', document).strip()
@@ -127,7 +139,7 @@ def process_special_word(text):
     if not text:
         return ""
     # Danh sách các từ đặc biệt cần xử lý
-    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá'}
+    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên'}
     words = text.split()
     result = []
     i = 0
@@ -150,27 +162,36 @@ def normalize_repeated_characters(text):
 
 
 
-# NỐI CÁC TỪ GHÉP
-def process_postag_pyvi(text):
+# GHÉP TỪ
+def process_postag_pyvi(text, keep_lst):
     # Tách câu
     sentences = text.split('.')  # Chia các câu dựa trên dấu chấm.
+
+    # Danh sách các từ loại POS cần giữ lại và các từ đặc biệt
     lst_word_type = ['A', 'V', 'R']
+    special_words =  keep_lst # Các từ đặc biệt mà bạn muốn giữ lại
     processed_sentences = []
     for sentence in sentences:
         # Bỏ khoảng trắng thừa
         sentence = sentence.strip()
         if not sentence:
             continue
+
         # Tokenize và POS tagging
         tokens = ViTokenizer.tokenize(sentence)
         words, pos_tags = ViPosTagger.postagging(tokens)
-        # Giữ lại các từ thuộc POS mong muốn
-        filtered_words = [word for word, pos in zip(words, pos_tags) if pos in lst_word_type]
+
+        # Giữ lại các từ thuộc POS mong muốn và các từ đặc biệt
+        filtered_words = [word for word, pos in zip(words, pos_tags) if pos in lst_word_type or word in special_words]
+
         # Ghép các từ lại thành câu
         processed_sentences.append(' '.join(filtered_words))
+
     # Ghép lại các câu thành văn bản hoàn chỉnh
     result = ' '.join(processed_sentences).strip()
+
     return result
+
 
 
 
@@ -199,16 +220,19 @@ def correct_spelling(text, corrected_word_dict):
 
 # PIPELINE
 class VietnameseTextProcessor:
-    def __init__(self, emoji_dict, teen_dict, stopwords_lst):
+    def __init__(self, emoji_dict, teen_dict, stopwords_lst, keep_lst):
         self.emoji_dict = emoji_dict
         self.teen_dict = teen_dict
         self.stopwords_lst = stopwords_lst
+        self.keep_lst = keep_lst
 
     def process_pipeline(self, text):
         # Chuyển text về string nếu không phải
         text = str(text)
 
-        text = add_emoji_spaces(text)
+        text = add_emoji_spaces(text, emoji_dict)
+        
+        text = normalize_repeated_characters(text)
 
         text = process_text(text, emoji_dict, teen_dict)
 
@@ -216,21 +240,12 @@ class VietnameseTextProcessor:
 
         text = covert_unicode(text)
 
-        text = normalize_repeated_characters(text)
-
-        text = process_postag_pyvi(text)
+        text = process_postag_pyvi(text, keep_lst)
 
         text = process_special_word(text)
-        
+
         text = remove_stopword(text, stopwords_lst)
         return text
-
-# Khởi tạo processor
-processor = VietnameseTextProcessor(
-    emoji_dict=emoji_dict,
-    teen_dict=teen_dict,
-    stopwords_lst=stopwords_lst
-)
 
 
 def find_words(text, word_list):
@@ -264,7 +279,7 @@ def sentiment_pipeline(document, positive_words, negative_words, positive_emojis
 def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
     # Tiền xử lý văn bản
     processed_text = processor.process_pipeline(text)
-    count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(text))))
+    count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(text, emoji_dict)),keep_lst))
     # Dự đoán cảm xúc
     result = sentiment_pipeline(count_text, positive_words, negative_words, positive_emojis, negative_emojis)
     # Tạo DataFrame chứa kết quả
@@ -354,10 +369,12 @@ st.sidebar.write("""#### Giảng viên hướng dẫn:\n
                 Khuất Thùy Phương""")
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
+# Khởi tạo processor
 processor = VietnameseTextProcessor(
     emoji_dict=emoji_dict,
     teen_dict=teen_dict,
-    stopwords_lst=stopwords_lst
+    stopwords_lst=stopwords_lst,
+    keep_lst = keep_lst
 )
 flag = False
 lines = None
@@ -400,57 +417,25 @@ if type=="Tải lên":
                 unsafe_allow_html=True)
         st.dataframe(du_doan)
 
-        st.markdown(
-            f"""
-            <style>
-            .intro-paragraph {{
-                text-indent: 0px; /* Thụt lề đầu dòng */
-                margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                font-size: 0.5em; /* Kích thước chữ nhỏ */
-                line-height: 1; /* Khoảng cách dòng */
-                text-align: center; /* Canh giữa đoạn văn */
-                font-style: italic; /* In nghiêng đoạn văn */
-            }}
-            </style>
-            <p class="intro-paragraph">
-            ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
-            </p>
-            """,
-            unsafe_allow_html=True)
-        # Lưu ý: Cần cung cấp các tham số như processor, positive_words, negative_words, positive_emojis, negative_emojis.
-        df_processed = du_doan['noi_dung_binh_luan'].apply(
-            lambda x: preprocess_sentiment_text(x, processor, positive_words, negative_words, positive_emojis, negative_emojis)
-        )
-        # Merging kết quả vào một DataFrame duy nhất
-        du_doan = pd.concat(df_processed.tolist(), ignore_index=True)
-        st.dataframe(du_doan)
+        with st.spinner('Đang tải...'):
+            # Lưu ý: Cần cung cấp các tham số như processor, positive_words, negative_words, positive_emojis, negative_emojis.
+            df_processed = du_doan['noi_dung_binh_luan'].apply(
+                lambda x: preprocess_sentiment_text(x, processor, positive_words, negative_words, positive_emojis, negative_emojis)
+            )
+            # Merging kết quả vào một DataFrame duy nhất
+            du_doan = pd.concat(df_processed.tolist(), ignore_index=True)
+            st.dataframe(du_doan)
 
-        du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
+            du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
 
-        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode=None)
+            loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode=None)
 
-        # Dự đoán nhãn
-        predictions = loaded_model.predict(du_doan_combined)
-        st.markdown(
-                f"""
-                <style>
-                .intro-paragraph {{
-                    text-indent: 0px; /* Thụt lề đầu dòng */
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.5em; /* Kích thước chữ */
-                    line-height: 1.5; /* Khoảng cách dòng */
-                    text-align: justify; /* Canh đều đoạn văn */
-                    font-style: italic; /* In nghiêng đoạn văn */
-                }}
-                </style>
-                <p class="intro-paragraph">
-                <strong>🔎 Dự đoán là nhãn:</strong> {predictions}
-                </p>
-                """,
-                unsafe_allow_html=True)
+            # Dự đoán nhãn
+            predictions = loaded_model.predict(du_doan_combined)
+            # Dự đoán xác suất
+            probabilities = loaded_model.predict_proba(du_doan_combined)
 
-        # Dự đoán xác suất
-        probabilities = loaded_model.predict_proba(du_doan_combined)
+        st.success("Xong!")
 
         # In xác suất theo từng mẫu
         st.markdown(
@@ -466,7 +451,7 @@ if type=="Tải lên":
                 }}
                 </style>
                 <p class="intro-paragraph">
-                <strong>🧮 Xác xuất của các nhãn:</strong>
+                <strong>🧮 Dự đoán và xác xuất của các nhãn:</strong>
                 </p>
                 """,
                 unsafe_allow_html=True)
@@ -483,35 +468,29 @@ if type=="Tải lên":
         st.dataframe(result.style.apply(highlight_max_in_row, axis=1))
 
 
-if type=="Nhập bình luận":        
+if type=="Nhập bình luận":    
+    # Add custom CSS to adjust the font size
+    # Text area input
     text = st.text_area(label="Input your content:")
+    st.markdown("""
+        <style>
+            textarea {
+                font-size: px;  # Adjust the size here
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     if text!="":
         flag = True
 
-        st.markdown(
-            f"""
-            <style>
-            .intro-paragraph {{
-                text-indent: 0px; /* Thụt lề đầu dòng */
-                margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                font-size: 0.5em; /* Kích thước chữ nhỏ */
-                line-height: 1; /* Khoảng cách dòng */
-                text-align: center; /* Canh giữa đoạn văn */
-                font-style: italic; /* In nghiêng đoạn văn */
-            }}
-            </style>
-            <p class="intro-paragraph">
-            ⏳⏳⏳  Đang xử lý  ⏳⏳⏳
-            </p>
-            """,
-            unsafe_allow_html=True)
-        
-        du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
+        with st.spinner('Đang tải...'):
+            du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
 
-        st.dataframe(du_doan)
+            st.dataframe(du_doan)
 
-        du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
-        loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
+            du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
+            loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
+        st.success("Done!")
 
         st.markdown(
                 f"""
