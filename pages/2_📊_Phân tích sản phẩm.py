@@ -240,15 +240,18 @@ def time_series(danh_gia_lien_quan):
     month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'nan']
     danh_gia_lien_quan['thang'] = pd.Categorical(danh_gia_lien_quan['thang'], categories=month_order, ordered=True)
 
-    # Đảm bảo ngày trong tháng được sắp xếp theo đúng thứ tự
+    # Chuyển đổi giá trị 'ngay_trong_thang' thành số
     danh_gia_lien_quan['ngay_trong_thang'] = pd.to_numeric(danh_gia_lien_quan['ngay_trong_thang'], errors='coerce')
+
+    # Đảm bảo thứ tự ngày trong tháng
     ngay_order = list(range(1, 32)) + ['nan']
     danh_gia_lien_quan['ngay_trong_thang'] = pd.Categorical(danh_gia_lien_quan['ngay_trong_thang'], categories=ngay_order, ordered=True)
 
+    # Tạo thứ tự năm
     years_order = sorted(danh_gia_lien_quan['nam'].unique())
     danh_gia_lien_quan['nam'] = pd.Categorical(danh_gia_lien_quan['nam'], categories=years_order, ordered=True)
 
-    # Tạo biểu đồ cho số lượng bình luận theo Năm
+    # Biểu đồ số lượng bình luận theo Năm
     fig1 = px.histogram(danh_gia_lien_quan, x='nam', title='Số lượng bình luận theo Năm', color='nam', color_discrete_sequence=px.colors.qualitative.Plotly)
     fig1.update_layout(
         xaxis_title='Năm',
@@ -259,7 +262,7 @@ def time_series(danh_gia_lien_quan):
     )
     fig1.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
-    # Tạo biểu đồ cho số lượng bình luận theo Tháng
+    # Biểu đồ số lượng bình luận theo Tháng
     fig2 = px.histogram(danh_gia_lien_quan, x='thang', title='Số lượng bình luận theo Tháng', color='thang', color_discrete_sequence=px.colors.sequential.Blues)
     fig2.update_layout(
         xaxis_title='Tháng',
@@ -270,7 +273,7 @@ def time_series(danh_gia_lien_quan):
     )
     fig2.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
-    # Tạo biểu đồ cho số lượng bình luận theo Thứ trong tuần
+    # Biểu đồ số lượng bình luận theo Thứ trong tuần
     fig3 = px.histogram(danh_gia_lien_quan, x='thu_trong_tuan', title='Số lượng bình luận theo Thứ trong tuần', color='thu_trong_tuan', color_discrete_sequence=px.colors.sequential.Magma)
     fig3.update_layout(
         xaxis_title='Thứ trong tuần',
@@ -281,18 +284,14 @@ def time_series(danh_gia_lien_quan):
     )
     fig3.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
-    # Tạo biểu đồ cho số lượng bình luận theo Ngày trong tháng
-    fig4 = px.histogram(danh_gia_lien_quan, x='ngay_trong_thang', title='Số lượng bình luận theo Ngày trong tháng', color='ngay_trong_thang', color_discrete_sequence=px.colors.sequential.Sunset)
+    # Biểu đồ số lượng bình luận theo Ngày trong tháng
+    fig4 = px.histogram(danh_gia_lien_quan, x='ngay_trong_thang', title='Số lượng bình luận theo Ngày trong tháng', color='ngay_trong_thang', color_discrete_sequence=px.colors.sequential.Plasma)
     fig4.update_layout(
         xaxis_title='Ngày trong tháng',
         yaxis_title='Số lượng bình luận',
         xaxis_tickangle=45,
         showlegend=False,
-        xaxis=dict(
-            type='category',
-            categoryorder='array',
-            categoryarray=ngay_order
-        )
+        xaxis=dict(type='category', categoryorder='array', categoryarray=ngay_order)
     )
     fig4.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
 
@@ -492,7 +491,7 @@ if st.session_state.selected_ma_san_pham :
         """,
         unsafe_allow_html=True)
     
-    st.image(savepath, use_column_width=True)
+    st.image(savepath, use_container_width=True)
 
     # Thống kê
     st.markdown(

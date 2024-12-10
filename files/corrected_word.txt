@@ -6,3 +6,49 @@ thắm	thấm
 tảy trang	tẩy trang
 củ	cũ
 tuyp	tuýp
+sữa rửa mặt	sữa_sữa_mặt
+kem chống nắng	kem_chống_nắng
+va	và
+oke	ok
+không bị	không
+xỉn màu	xỉn_màu
+cũng được	cũng_được
+không được	không
+đổ dầu	đổ_dầu
+củng	cũng
+đặc hàng	đặt_hàng
+chân ái	chân_ái
+giải thưởng	giải_thưởng
+tót	tốt
+ửng đỏ	ửng_đỏ
+hiệu quá	hiệu quả
+bt	bình thường
+nhờn rít	nhờn_rít
+vón cục	vón_cục
+mọi ngừi	mọi người
+trắn	trắng
+gì viu	review
+củn	cũng
+aply	apply
+toàn mặt	toàn_mặt
+rửa sạch	rửa_sạch
+dưỡng ẩm	dưỡng_ẩm
+vô thưởng vô phạt	vô_thưởng_vô_phạt
+không làm	không
+không có	không
+nổi mụn	nổi_mụn
+mềmmịn	mềm mịn
+cả thiện	cải thiện
+real	chính_hãng
+10₫	tốt
+quá đã	quá_đã
+dầu gội	dầu_gội
+cai thiên	cải thiện
+trắg	trắng
+khử mùi	khử_mùi
+10 điểm	tốt
+da mụn	da_mụn
+cấp ẩm	cấp_ẩm
+mẩn đỏ	mẩn_đỏ
+chưa thấy	chưa
+khó thấm	khó_thấm
