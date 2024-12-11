@@ -28,7 +28,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.sidebar.title("👋 Sentiment Analysis 📄")
+st.sidebar.title("👋 Sentiment Analysis 👋")
 
 # Đường link của ảnh
 image_url = 'https://tamancosmetics.vn/wp-content/uploads/2024/01/hasaki.png'
