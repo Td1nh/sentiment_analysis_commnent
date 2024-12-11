@@ -336,6 +336,7 @@ st.markdown(
         font-family: 'Arial', sans-serif; /* Đổi font chữ (hoặc thay bằng font khác) */
         font-size: 4em; /* Kích thước chữ */
         font-weight: bold; /* Đậm chữ */
+        color: #2f6e51;
     }
     </style>
     <h1 class="centered-title">👋 Sentiment Analysis! 👋</h1>
