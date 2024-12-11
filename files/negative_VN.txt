@@ -97,3 +97,5 @@ rát
 bí
 mẩn_đỏ
 không_tệp
+bóng
+khó_tán

@@ -255,7 +255,7 @@ nhaa	nha
 cũg	cũng
 đag	đang
 ơiii	ơi
-hic	khóc
+hic	hích
 ace	anh chị em
 àk	à
 uh	ừ
@@ -418,15 +418,3 @@ shiper	người giao hàng
 khum	không
 srm	sữa_rửa_mặt
 kcn	kem_chống_nắng
-đươjc	được
-méo	máu
-lun	luôn
-bthw	bình thường
-bthg	bình thường
-okie	ok
-thoi	thôi
-qá	quá
-chời	trời
-trùi	trời
-hong	không
-v	vậy
