@@ -31,7 +31,7 @@ file.close()
 
 #################
 #LOAD STOPWORDS
-file = open('G:/My Drive/DL07_K299_TrangThuDinh_NguyenQuangKhai/Project1/files/vietnamese-stopwords.txt', 'r', encoding="utf8")
+file = open('files/vietnamese-stopwords.txt', 'r', encoding="utf8")
 stopwords_lst = file.read().split('\n')
 file.close()
 
