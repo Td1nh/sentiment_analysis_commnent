@@ -37,7 +37,7 @@ def generate_wordcloud(text, colormap, title):
 def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_path):
     ma_sp = san_pham[san_pham['ten_san_pham'] == selected_product]['ma_san_pham'].iloc[0]
     danh_gia_lien_quan = danh_gia[danh_gia['ma_san_pham'] == ma_sp]
-
+    diem_trung_binh = danh_gia[danh_gia['ma_san_pham'] == ma_sp]['so_sao'].mean()
     # Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
     folder = os.path.dirname(save_path)
     if not os.path.exists(folder):
@@ -83,7 +83,7 @@ def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_p
         plt.close()
     else:
         plt.close()  # Đảm bảo giải phóng tài nguyên khi không có gì để vẽ
-    return save_path, ma_sp, danh_gia_lien_quan
+    return save_path, ma_sp, danh_gia_lien_quan, diem_trung_binh
 
 
 # Thống kê cơ bản
@@ -169,64 +169,6 @@ def so_luong(danh_gia_lien_quan):
     st.plotly_chart(fig1)
     st.plotly_chart(fig2)
 
-
-# def time_series(danh_gia_lien_quan):
-#     # Xử lý cột 'nam' để đảm bảo định dạng là chuỗi và lấy phần trước dấu chấm
-#     danh_gia_lien_quan['nam'] = danh_gia_lien_quan['nam'].astype('str').str.split('.').str[0]
-
-#     # Đảm bảo thứ trong tuần sắp xếp đúng thứ tự
-#     thu_tu_thu = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'nan']
-#     danh_gia_lien_quan['thu_trong_tuan'] = pd.Categorical(danh_gia_lien_quan['thu_trong_tuan'], categories=thu_tu_thu, ordered=True)
-
-#     # Đảm bảo tháng được sắp xếp theo đúng thứ tự tháng
-#     month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'nan']
-#     danh_gia_lien_quan['thang'] = pd.Categorical(danh_gia_lien_quan['thang'], categories=month_order, ordered=True)
-
-#     years_order = sorted(danh_gia_lien_quan['nam'].unique())
-#     danh_gia_lien_quan['nam'] = pd.Categorical(danh_gia_lien_quan['nam'], categories=sorted(danh_gia_lien_quan['nam'].unique()), ordered=True)
-#     # Tạo biểu đồ cho số lượng bình luận theo Năm
-#     fig1 = px.histogram(danh_gia_lien_quan, x='nam', title='Số lượng bình luận theo Năm', color='nam', color_discrete_sequence=px.colors.qualitative.Plotly)
-#     fig1.update_layout(
-#         xaxis_title='Năm',
-#         yaxis_title='Số lượng bình luận',
-#         xaxis_tickangle=45,
-#         showlegend=False,
-#         xaxis=dict(type='category', categoryorder='array', categoryarray=years_order)   # Trục X là dạng category
-#     )
-#     fig1.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
-
-#     # Tạo biểu đồ cho số lượng bình luận theo Tháng với sắp xếp trục x theo đúng thứ tự tháng
-#     fig2 = px.histogram(danh_gia_lien_quan, x='thang', title='Số lượng bình luận theo Tháng', color='thang', color_discrete_sequence=px.colors.sequential.Blues)
-#     fig2.update_layout(
-#         xaxis_title='Tháng',
-#         yaxis_title='Số lượng bình luận',
-#         xaxis_tickangle=45,
-#         showlegend=False,
-#         xaxis=dict(
-#             type='category',
-#             categoryorder='array',
-#             categoryarray=month_order  # Sắp xếp trục x theo tháng
-#         )
-#     )
-#     fig2.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
-
-#     # Tạo biểu đồ cho số lượng bình luận theo Thứ trong tuần
-#     fig3 = px.histogram(danh_gia_lien_quan, x='thu_trong_tuan', title='Số lượng bình luận theo Thứ trong tuần', color='thu_trong_tuan', color_discrete_sequence=px.colors.sequential.Magma)
-#     fig3.update_layout(
-#         xaxis_title='Thứ trong tuần',
-#         yaxis_title='Số lượng bình luận',
-#         xaxis_tickangle=45,
-#         showlegend=False,
-#         xaxis=dict(type='category',
-#                    categoryorder='array',
-#                     categoryarray=thu_tu_thu)  # Trục X là dạng category
-#     )
-#     fig3.update_traces(texttemplate='%{y}', textposition='outside', textfont=dict(size=12, color='black'))
-
-#     # Hiển thị các biểu đồ trong Streamlit
-#     st.plotly_chart(fig1)
-#     st.plotly_chart(fig2)
-#     st.plotly_chart(fig3)
 
 def time_series(danh_gia_lien_quan):
     # Xử lý cột 'nam' để đảm bảo định dạng là chuỗi và lấy phần trước dấu chấm
@@ -314,7 +256,7 @@ san_pham = pd.read_csv('data/DATA - FINAL/All_San_pham_clean.csv', sep=';')
 # ================================== STREAMLIT ===================================
 st.set_page_config(page_title="Thông tin sản phẩm", page_icon="📊", layout = "wide")
 
-st.sidebar.title("👋 Sentiment Analysis 📄")
+st.sidebar.title("👋 Sentiment Analysis 👋")
 st.markdown(
     """
     <style>
@@ -433,7 +375,7 @@ selected_product = st.selectbox(
 st.session_state.selected_ma_san_pham = selected_product
 
 if st.session_state.selected_ma_san_pham :
-    savepath, ma_sp, danh_gia_lien_quan = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
+    savepath, ma_sp, danh_gia_lien_quan, diem_trung_binh = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
 
     st.markdown(
         """
@@ -468,6 +410,7 @@ if st.session_state.selected_ma_san_pham :
         <p class="intro-paragraph">
         - <strong>Sản phẩm:</strong> {selected_product} <br>
         - <strong>Mã sản phẩm:</strong> {ma_sp} <br>
+        - <strong>Đánh giá trung bình:</strong> {round(diem_trung_binh,2)} <br>
         </p>
         """,
         unsafe_allow_html=True

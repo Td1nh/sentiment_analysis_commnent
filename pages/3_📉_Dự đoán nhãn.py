@@ -31,7 +31,7 @@ file.close()
 
 #################
 #LOAD STOPWORDS
-file = open('files/vietnamese-stopwords.txt', 'r', encoding="utf8")
+file = open('G:/My Drive/DL07_K299_TrangThuDinh_NguyenQuangKhai/Project1/files/vietnamese-stopwords.txt', 'r', encoding="utf8")
 stopwords_lst = file.read().split('\n')
 file.close()
 
@@ -139,7 +139,7 @@ def process_special_word(text):
     if not text:
         return ""
     # Danh sách các từ đặc biệt cần xử lý
-    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên'}
+    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên', 'khó', 'không_nên', 'không_làm'}
     words = text.split()
     result = []
     i = 0
@@ -168,7 +168,7 @@ def process_postag_pyvi(text, keep_lst):
     sentences = text.split('.')  # Chia các câu dựa trên dấu chấm.
 
     # Danh sách các từ loại POS cần giữ lại và các từ đặc biệt
-    lst_word_type = ['A', 'V', 'R']
+    lst_word_type = ['A', 'V', 'R', 'Np']
     special_words =  keep_lst # Các từ đặc biệt mà bạn muốn giữ lại
     processed_sentences = []
     for sentence in sentences:
@@ -247,6 +247,14 @@ class VietnameseTextProcessor:
         text = remove_stopword(text, stopwords_lst)
         return text
 
+# Khởi tạo processor
+processor = VietnameseTextProcessor(
+    emoji_dict=emoji_dict,
+    teen_dict=teen_dict,
+    stopwords_lst=stopwords_lst,
+    keep_lst = keep_lst
+)
+
 
 def find_words(text, word_list):
     text_lower = text.lower()
@@ -275,7 +283,6 @@ def sentiment_pipeline(document, positive_words, negative_words, positive_emojis
     total_negative = negative_count + negative_icon
     return total_positive, positive_word_list + positive_icon_list, total_negative, negative_word_list + negative_icon_list
 
-
 def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
     # Tiền xử lý văn bản
     processed_text = processor.process_pipeline(text)
@@ -294,13 +301,18 @@ def preprocess_sentiment_text(text, processor, positive_words, negative_words, p
     return du_doan
 
 
-def x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl'):
+def x_with_engineering_model(du_doan, vectorizer_path='saved_models/count_vectorizer_model.pkl', scaler_path='saved_models/scaler_minmax.pkl'):
     # Tải mô hình và vectorizer từ file
-    train, count_vectorizer = joblib.load(model_path)
+    train, count_vectorizer = joblib.load(vectorizer_path)
     # Chuyển văn bản đã xử lý thành vector 
     du_doan_vec = count_vectorizer.transform(du_doan['noi_dung_binh_luan_processed'])
     # Kết hợp các đặc trưng số
-    du_doan_num = du_doan[['do_dai', 'positive_count', 'negative_count']].values
+    du_doan_num = du_doan[['do_dai', 'positive_count', 'negative_count']].copy()
+
+    scaler_loaded = joblib.load(scaler_path)
+    du_doan_num[['do_dai']] = scaler_loaded.transform(du_doan_num[['do_dai']])
+
+    du_doan_num = du_doan_num[['do_dai', 'positive_count', 'negative_count']].values 
     du_doan_combined = hstack([du_doan_vec, du_doan_num])
     return du_doan_combined
 
@@ -315,7 +327,7 @@ st.set_page_config(
     layout = "wide"
 )
 
-st.sidebar.title("👋 Sentiment Analysis 📄")
+st.sidebar.title("👋 Sentiment Analysis 👋")
 st.markdown(
     """
     <style>
@@ -357,7 +369,7 @@ st.markdown(
         }
         </style>
         <p class="intro-paragraph">
-        <strong>📉 Dữ đoán nhãn</strong>
+        <strong>📉 Dự đoán nhãn</strong>
         </p>
         """,
         unsafe_allow_html=True)
@@ -426,7 +438,7 @@ if type=="Tải lên":
             du_doan = pd.concat(df_processed.tolist(), ignore_index=True)
             st.dataframe(du_doan)
 
-            du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
+            du_doan_combined = x_with_engineering_model(du_doan, vectorizer_path='saved_models/count_vectorizer_model.pkl', scaler_path='saved_models/scaler_minmax.pkl')
 
             loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode=None)
 
@@ -488,7 +500,7 @@ if type=="Nhập bình luận":
 
             st.dataframe(du_doan)
 
-            du_doan_combined = x_with_count_vectorizer_model(du_doan, model_path='saved_models/count_vectorizer_model.pkl')
+            du_doan_combined = x_with_engineering_model(du_doan, vectorizer_path='saved_models/count_vectorizer_model.pkl', scaler_path='saved_models/scaler_minmax.pkl')
             loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
         st.success("Done!")
 
