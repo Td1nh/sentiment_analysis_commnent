@@ -13,3 +13,5 @@ thư giãn	thư_giãn
 va	và
 mua lại	mua_lại
 dầu gọi	dầu_gội
+không tốt	không_tốt
+dích	dính

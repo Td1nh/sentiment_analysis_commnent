@@ -31,3 +31,4 @@ thư_giãn
 hợp
 mua_lại
 nâng_tông
+không_tốt

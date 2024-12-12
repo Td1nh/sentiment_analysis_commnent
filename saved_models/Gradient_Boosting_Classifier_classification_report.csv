@@ -1,22 +1,22 @@
 Model,Label,Sub-label,Value
-Gradient Boosting Classifier,negative,precision,0.28779840848806365
+Gradient Boosting Classifier,negative,precision,0.2916666666666667
 Gradient Boosting Classifier,negative,recall,0.9194915254237288
-Gradient Boosting Classifier,negative,f1-score,0.4383838383838384
+Gradient Boosting Classifier,negative,f1-score,0.44285714285714284
 Gradient Boosting Classifier,negative,support,236.0
-Gradient Boosting Classifier,neutral,precision,0.9538461538461539
-Gradient Boosting Classifier,neutral,recall,0.24899598393574296
-Gradient Boosting Classifier,neutral,f1-score,0.3949044585987261
+Gradient Boosting Classifier,neutral,precision,0.95
+Gradient Boosting Classifier,neutral,recall,0.2289156626506024
+Gradient Boosting Classifier,neutral,f1-score,0.3689320388349514
 Gradient Boosting Classifier,neutral,support,249.0
-Gradient Boosting Classifier,positive,precision,0.9723096286972939
-Gradient Boosting Classifier,positive,recall,0.9086453636541855
-Gradient Boosting Classifier,positive,f1-score,0.9394000810701256
+Gradient Boosting Classifier,positive,precision,0.9717691342534505
+Gradient Boosting Classifier,positive,recall,0.9109978435600863
+Gradient Boosting Classifier,positive,f1-score,0.9404027117272084
 Gradient Boosting Classifier,positive,support,5101.0
-Gradient Boosting Classifier,accuracy,N/A,0.8796992481203008
-Gradient Boosting Classifier,macro avg,precision,0.7379847303438373
-Gradient Boosting Classifier,macro avg,recall,0.6923776243378857
-Gradient Boosting Classifier,macro avg,f1-score,0.5908961260175634
+Gradient Boosting Classifier,accuracy,N/A,0.8809523809523809
+Gradient Boosting Classifier,macro avg,precision,0.7378119336400392
+Gradient Boosting Classifier,macro avg,recall,0.6864683438781393
+Gradient Boosting Classifier,macro avg,f1-score,0.5840639644731008
 Gradient Boosting Classifier,macro avg,support,5586.0
-Gradient Boosting Classifier,weighted avg,precision,0.9425670484596799
-Gradient Boosting Classifier,weighted avg,recall,0.8796992481203008
-Gradient Boosting Classifier,weighted avg,f1-score,0.8939616200480449
+Gradient Boosting Classifier,weighted avg,precision,0.9420654649409567
+Gradient Boosting Classifier,weighted avg,recall,0.8809523809523809
+Gradient Boosting Classifier,weighted avg,f1-score,0.8939084489625275
 Gradient Boosting Classifier,weighted avg,support,5586.0
