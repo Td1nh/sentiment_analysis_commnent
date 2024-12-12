@@ -355,7 +355,7 @@ st.sidebar.write("""#### Giảng viên hướng dẫn:\n
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
 products = san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique())]['ten_san_pham'].unique()
-selected_product = st.selectbox('Sản phẩm:',products, index=9)
+selected_product = st.selectbox('Sản phẩm:',products, index=1)
 
 if selected_product:
     savepath, ma_sp, danh_gia_lien_quan, diem_trung_binh = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
