@@ -1,22 +1,22 @@
 Model,Label,Sub-label,Value
-Random Forest Classifier,negative,precision,0.9778761061946902
-Random Forest Classifier,negative,recall,0.9364406779661016
-Random Forest Classifier,negative,f1-score,0.9567099567099567
+Random Forest Classifier,negative,precision,0.9780701754385965
+Random Forest Classifier,negative,recall,0.9449152542372882
+Random Forest Classifier,negative,f1-score,0.9612068965517241
 Random Forest Classifier,negative,support,236.0
 Random Forest Classifier,neutral,precision,0.9954954954954955
 Random Forest Classifier,neutral,recall,0.8875502008032129
 Random Forest Classifier,neutral,f1-score,0.9384288747346072
 Random Forest Classifier,neutral,support,249.0
-Random Forest Classifier,positive,precision,0.9916309848189957
+Random Forest Classifier,positive,precision,0.9920171339563862
 Random Forest Classifier,positive,recall,0.9988237600470496
-Random Forest Classifier,positive,f1-score,0.9952143764039457
+Random Forest Classifier,positive,f1-score,0.9954088111751489
 Random Forest Classifier,positive,support,5101.0
-Random Forest Classifier,accuracy,N/A,0.9912280701754386
-Random Forest Classifier,macro avg,precision,0.9883341955030606
-Random Forest Classifier,macro avg,recall,0.940938212938788
-Random Forest Classifier,macro avg,f1-score,0.9634510692828365
+Random Forest Classifier,accuracy,N/A,0.9915861081274615
+Random Forest Classifier,macro avg,precision,0.9885276016301594
+Random Forest Classifier,macro avg,recall,0.9437630716958503
+Random Forest Classifier,macro avg,f1-score,0.9650148608204935
 Random Forest Classifier,macro avg,support,5586.0
-Random Forest Classifier,weighted avg,precision,0.9912221254926642
-Random Forest Classifier,weighted avg,recall,0.9912280701754386
-Random Forest Classifier,weighted avg,f1-score,0.9910563683546356
+Random Forest Classifier,weighted avg,precision,0.9915829466690679
+Random Forest Classifier,weighted avg,recall,0.9915861081274615
+Random Forest Classifier,weighted avg,f1-score,0.9914239103472179
 Random Forest Classifier,weighted avg,support,5586.0
