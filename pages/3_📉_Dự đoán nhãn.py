@@ -283,21 +283,57 @@ def sentiment_pipeline(document, positive_words, negative_words, positive_emojis
     total_negative = negative_count + negative_icon
     return total_positive, positive_word_list + positive_icon_list, total_negative, negative_word_list + negative_icon_list
 
+# def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
+#     # Tiền xử lý văn bản
+#     processed_text = processor.process_pipeline(text)
+#     count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(text, emoji_dict)),keep_lst))
+#     # Dự đoán cảm xúc
+#     result = sentiment_pipeline(count_text, positive_words, negative_words, positive_emojis, negative_emojis)
+#     # Tạo DataFrame chứa kết quả
+#     data = {
+#         "noi_dung_binh_luan": [text],
+#         "noi_dung_binh_luan_processed": [processed_text],
+#         "positive_count": [result[0]],
+#         "negative_count": [result[2]]
+#     }
+#     du_doan = pd.DataFrame(data)
+#     du_doan['do_dai'] = du_doan['noi_dung_binh_luan'].apply(lambda x: len(str(x).split()))
+#     return du_doan
 def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
-    # Tiền xử lý văn bản
-    processed_text = processor.process_pipeline(text)
-    count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(text, emoji_dict)),keep_lst))
-    # Dự đoán cảm xúc
-    result = sentiment_pipeline(count_text, positive_words, negative_words, positive_emojis, negative_emojis)
+    # Tách văn bản thành các dòng, mỗi dòng cách nhau bởi \n
+    lines = text.split('\n')
+    
+    # Danh sách để chứa kết quả
+    processed_texts = []
+    positive_counts = []
+    negative_counts = []
+    lengths = []
+
+    # Lặp qua từng dòng
+    for line in lines:
+        # Tiền xử lý văn bản
+        processed_text = processor.process_pipeline(line)
+        count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(line, emoji_dict)), keep_lst))
+        
+        # Dự đoán cảm xúc
+        result = sentiment_pipeline(count_text, positive_words, negative_words, positive_emojis, negative_emojis)
+        
+        # Thêm kết quả vào các danh sách
+        processed_texts.append(processed_text)
+        positive_counts.append(result[0])
+        negative_counts.append(result[2])
+        lengths.append(len(str(line).split()))
+    
     # Tạo DataFrame chứa kết quả
     data = {
-        "noi_dung_binh_luan": [text],
-        "noi_dung_binh_luan_processed": [processed_text],
-        "positive_count": [result[0]],
-        "negative_count": [result[2]]
+        "noi_dung_binh_luan": lines,
+        "noi_dung_binh_luan_processed": processed_texts,
+        "positive_count": positive_counts,
+        "negative_count": negative_counts,
+        "do_dai": lengths
     }
+    
     du_doan = pd.DataFrame(data)
-    du_doan['do_dai'] = du_doan['noi_dung_binh_luan'].apply(lambda x: len(str(x).split()))
     return du_doan
 
 
@@ -552,104 +588,22 @@ if type=="Tải lên":
 if type=="Nhập bình luận":    
     # Add custom CSS to adjust the font size
     # Text area input
-    text = st.text_area(label="Input your content:")
-    st.markdown("""
-        <style>
-            textarea {
-                font-size: px;  # Adjust the size here
-            }
-        </style>
-    """, unsafe_allow_html=True)
+    text = st.text_area(label="Nhập bình luận (mỗi bình luận xuống hàng):")
 
     if text!="":
         flag = True
-
+        
         with st.spinner('Đang tải...'):
             du_doan = preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis)
 
             du_doan_combined = x_with_engineering_model(du_doan, vectorizer_path='saved_models/count_vectorizer_model.pkl', scaler_path='saved_models/scaler_minmax.pkl')
             loaded_model = joblib.load('saved_models/Random_Forest_Classifier.pkl', mmap_mode='r')
-        st.success("Done!")
-
-        st.markdown(
-                f"""
-                <style>
-                .intro-paragraph {{
-                    text-indent: 0px; /* Thụt lề đầu dòng */
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.2em; /* Kích thước chữ */
-                    line-height: 1.5; /* Khoảng cách dòng */
-                    text-align: justify; /* Canh đều đoạn văn */
-                    font-style: italic; /* In nghiêng đoạn văn */
-                }}
-                </style>
-                <p class="intro-paragraph">
-                <strong>💬 Nội dung bình luận:</strong> {text}
-                </p>
-                """,
-                unsafe_allow_html=True)
-
-        # Dự đoán nhãn
-        predictions = loaded_model.predict(du_doan_combined)
-        if predictions[0] == 'positive':
-            st.markdown(
-                f"""
-                <style>
-                .intro-paragraph3 {{
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.2em; /* Kích thước chữ */
-                    line-height: 1.5; /* Khoảng cách dòng */
-                }}
-                .positive-label {{
-                    color: green; /* Màu đỏ cho nhãn positive */
-                    font-weight: bold; /* Làm đậm nhãn */
-                }}
-                </style>
-                <p class="intro-paragraph3">
-                <span class="positive-label">🤩 {predictions[0]}</span><br>
-                </p>
-                """,
-                unsafe_allow_html=True)
-        elif predictions[0] == 'negative':
-            st.markdown(
-                f"""
-                <style>
-                .intro-paragraph3 {{
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.2em; /* Kích thước chữ */
-                    line-height: 1.5; /* Khoảng cách dòng */
-                }}
-                .negative-label {{
-                    color: red; /* Màu đỏ cho nhãn positive */
-                    font-weight: bold; /* Làm đậm nhãn */
-                }}
-                </style>
-                <p class="intro-paragraph3">
-                <span class="negative-label">😡 {predictions[0]}</span><br>
-                </p>
-                """,
-                unsafe_allow_html=True)
-        else:
-            st.markdown(
-                f"""
-                <style>
-                .intro-paragraph3 {{
-                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
-                    font-size: 1.2em; /* Kích thước chữ */
-                    line-height: 1.5; /* Khoảng cách dòng */
-                }}
-                .neu-label {{
-                    font-weight: bold; /* Làm đậm nhãn */
-                }}
-                </style>
-                <p class="intro-paragraph3">
-                <span class="neu-label">😐 {predictions[0]}</span><br>
-                </p>
-                """,
-                unsafe_allow_html=True)
-        
-        # Dự đoán xác suất
-        probabilities = loaded_model.predict_proba(du_doan_combined)
+    
+            # Dự đoán nhãn
+            predictions = loaded_model.predict(du_doan_combined)
+            # Dự đoán xác suất
+            probabilities = loaded_model.predict_proba(du_doan_combined)
+        st.success("Xong!")
 
         # In xác suất theo từng mẫu
         st.markdown(
@@ -665,21 +619,89 @@ if type=="Nhập bình luận":
                 }}
                 </style>
                 <p class="intro-paragraph">
-                <strong>🧮 Xác xuất của các nhãn:</strong>
+                <strong>🧮 Dự đoán nhãn:</strong>
                 </p>
                 """,
                 unsafe_allow_html=True)
         class_labels = loaded_model.classes_
         prob_df = pd.DataFrame(probabilities, columns=class_labels)
         prob_df["Predicted Label"] = predictions
+        result = pd.merge(du_doan['noi_dung_binh_luan'], prob_df, left_index=True, right_index=True)
+        
+        for index, row in result.iterrows():
+            if row['Predicted Label'] == 'positive':  # Kiểm tra nếu nhãn là "positive"
+                st.markdown(
+                    f"""
+                    <style>
+                    .intro-paragraph3 {{
+                        margin-left: 10px; /* Thụt toàn bộ đoạn văn vào */
+                        font-size: 1.2em; /* Kích thước chữ */
+                        line-height: 1.5; /* Khoảng cách dòng */
+                    }}
+                    .positive-label {{
+                        color: green; /* Màu xanh lá cho nhãn positive */
+                        font-weight: bold; /* Làm đậm nhãn */
+                    }}
+                    </style>
+                    <p class="intro-paragraph3">
+                    <strong>{"- "*50} Nội dung {index+1} {"- "*50}<br></strong>
+                    {row['noi_dung_binh_luan']}<br>
+                    <span class="positive-label">🤩 {row['Predicted Label']}</span><br>
+                    
+                    </p>
+                    """,
+                    unsafe_allow_html=True)
+            elif row['Predicted Label'] == 'negative':  # Kiểm tra nếu nhãn là "positive"
+                st.markdown(
+                    f"""
+                    <style>
+                    .negative-label {{
+                        color: red; /* Màu xanh lá cho nhãn positive */
+                        font-weight: bold; /* Làm đậm nhãn */
+                    }}
+                    </style>
+                    <p class="intro-paragraph3">
+                    <strong>{"- "*50} Nội dung {index+1} {"- "*50}<br></strong>
+                    {row['noi_dung_binh_luan']}<br>
+                    <span class="negative-label">😡 {row['Predicted Label']}</span><br>
+                    
+                    </p>
+                    """,
+                    unsafe_allow_html=True)
+            else:
+                st.markdown(
+                    f"""
+                    <style>
+                    </style>
+                    <p class="intro-paragraph3">
+                    <strong>{"- "*50} Nội dung {index+1} {"- "*50}<br></strong>
+                    {row['noi_dung_binh_luan']}<br>
+                    <strong>😐 {row['Predicted Label']}<strong><br>
+                    </p>
+                    """,
+                    unsafe_allow_html=True)
+        st.markdown(
+                f"""
+                <style>
+                .intro-paragraph {{
+                    text-indent: 0px; /* Thụt lề đầu dòng */
+                    margin-left: 0px; /* Thụt toàn bộ đoạn văn vào */
+                    font-size: 1.5em; /* Kích thước chữ */
+                    line-height: 1.5; /* Khoảng cách dòng */
+                    text-align: justify; /* Canh đều đoạn văn */
+                    font-style: italic; /* In nghiêng đoạn văn */
+                }}
+                </style>
+                <p class="intro-paragraph">
+                <strong>🧮 Xác suất nhãn:</strong>
+                </p>
+                """,
+                unsafe_allow_html=True)
         def highlight_max_in_row(row):
-            styles = ['background-color: yellow' if v == row[:-1].max() else '' for v in row[:-1]]  # Không highlight cột nhãn
-            styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label"
+            styles = ['background-color: yellow' if v == row[1:-1].max() else '' for v in row[1:-1]]  # Không highlight cột đầu và cột cuối
+            styles.insert(0, '')
+            styles.append('font-weight: bold; color: blue')  # Nhấn mạnh cột "Predicted Label" (cột cuối)
             return styles
-        styled_df = prob_df.style.apply(highlight_max_in_row, axis=1)
-        st.dataframe(styled_df)
-
-
-
+        st.dataframe(result.style.apply(highlight_max_in_row, axis=1))
 
     
