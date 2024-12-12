@@ -138,22 +138,26 @@ def covert_unicode(txt):
 def process_special_word(text):
     if not text:
         return ""
+    
     # Danh sách các từ đặc biệt cần xử lý
-    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên', 'khó', 'không_nên', 'không_làm', 'nên', 'chất_lượng', 'không_còn'}
+    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên', 'khó', 'không_nên', 'không_làm', 'nên', 'chất_lượng', 'bị', 'không_bị'}
+    
     words = text.split()
     result = []
     i = 0
+    
     while i < len(words):
         current_word = words[i]
 
-        if current_word in special_words and i + 1 < len(words):
-            # Nối từ đặc biệt với từ tiếp theo
+        if current_word in special_words and i + 1 < len(words) and words[i + 1] not in special_words:
+            # Nối từ đặc biệt với từ tiếp theo nếu từ tiếp theo không phải là từ đặc biệt
             combined_word = f"{current_word}_{words[i + 1]}"
             result.append(combined_word)
             i += 2  # Bỏ qua từ tiếp theo vì đã xử lý
         else:
             result.append(current_word)
             i += 1
+    
     return ' '.join(result)
 
 # CHUẨN HÓA TỪ CÓ KÝ TỰ LẶP
