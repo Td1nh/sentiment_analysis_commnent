@@ -177,6 +177,7 @@ fig_label = px.bar(
 )
 st.plotly_chart(fig_label, use_container_width=True)
 
+
 st.markdown(
         """
         <style>
@@ -216,10 +217,15 @@ file_path = 'saved_models/model_results.csv'
 data = pd.read_csv(file_path, delimiter=",")
 # Tìm các cột có giá trị cao nhất
 def highlight_max_column(s):
-    # Tìm giá trị lớn nhất trong cột
-    is_max = s == s.max()
-    # Tô màu cho giá trị lớn nhất trong cột
-    return ['background-color: yellow' if v else '' for v in is_max]
+    # Kiểm tra nếu cột không phải là cột cuối (ví dụ, tên cột là 'Cột Cuối')
+    if s.name != 'TT (Sec)' and s.name != 'Model':
+        # Tìm giá trị lớn nhất trong cột
+        is_max = s == s.max()
+        # Tô màu cho giá trị lớn nhất trong cột
+        return ['background-color: yellow' if v else '' for v in is_max]
+    # Không tô màu nếu là cột cuối cùng
+    return ['' for _ in s]
+
 
 # Áp dụng hàm highlight_max_column vào từng cột của DataFrame
 styled_data = data.style.apply(highlight_max_column, axis=0)
@@ -263,15 +269,15 @@ with col1:
 
         
 with col2:
-    with st.expander("Extra Trees Classifier"): 
-        df = pd.read_csv('saved_models/Extra_Trees_Classifier_classification_report.csv')
+    with st.expander("Support Vector Classifier"): 
+        df = pd.read_csv('saved_models/Support_Vector_Classifier_classification_report.csv')
         df_pivot = df.pivot(index='Label', columns='Sub-label', values='Value')
         desired_order = ['negative', 'neutral', 'positive', 'macro avg', 'weighted avg']
         df_pivot = df_pivot.loc[desired_order]
         df_pivot = df_pivot.dropna(axis=1)
         df_pivot = df_pivot[['precision', 'recall', 'f1-score', 'support']]
         st.dataframe(df_pivot)
-        st.image('saved_models/Extra_Trees_Classifier_confusion_matrix.png', use_container_width=True)
+        st.image('saved_models/Support_Vector_Classifier_confusion_matrix.png', use_container_width=True)
 
         
 with col3:
