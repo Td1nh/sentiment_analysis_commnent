@@ -1,22 +1,22 @@
 Model,Label,Sub-label,Value
-Support Vector Classifier,negative,precision,0.7466666666666667
-Support Vector Classifier,negative,recall,0.9491525423728814
-Support Vector Classifier,negative,f1-score,0.8358208955223881
-Support Vector Classifier,negative,support,236.0
-Support Vector Classifier,neutral,precision,0.9888268156424581
-Support Vector Classifier,neutral,recall,0.7108433734939759
-Support Vector Classifier,neutral,f1-score,0.8271028037383178
-Support Vector Classifier,neutral,support,249.0
-Support Vector Classifier,positive,precision,0.9870765615821422
-Support Vector Classifier,positive,recall,0.988237600470496
-Support Vector Classifier,positive,f1-score,0.9876567398119123
-Support Vector Classifier,positive,support,5101.0
-Support Vector Classifier,accuracy,N/A,0.9742212674543501
-Support Vector Classifier,macro avg,precision,0.9075233479637556
-Support Vector Classifier,macro avg,recall,0.8827445054457845
-Support Vector Classifier,macro avg,f1-score,0.883526813024206
+Support Vector Classifier,negative,precision,0.7073170731707317
+Support Vector Classifier,negative,recall,0.9354838709677419
+Support Vector Classifier,negative,f1-score,0.8055555555555556
+Support Vector Classifier,negative,support,217.0
+Support Vector Classifier,neutral,precision,0.9894179894179894
+Support Vector Classifier,neutral,recall,0.73046875
+Support Vector Classifier,neutral,f1-score,0.8404494382022473
+Support Vector Classifier,neutral,support,256.0
+Support Vector Classifier,positive,precision,0.9870841487279843
+Support Vector Classifier,positive,recall,0.9865049872873068
+Support Vector Classifier,positive,f1-score,0.9867944830284653
+Support Vector Classifier,positive,support,5113.0
+Support Vector Classifier,accuracy,N/A,0.9727891156462585
+Support Vector Classifier,macro avg,precision,0.8946064037722352
+Support Vector Classifier,macro avg,recall,0.8841525360850163
+Support Vector Classifier,macro avg,f1-score,0.8775998255954227
 Support Vector Classifier,macro avg,support,5586.0
-Support Vector Classifier,weighted avg,precision,0.9769976281881154
-Support Vector Classifier,weighted avg,recall,0.9742212674543501
-Support Vector Classifier,weighted avg,f1-score,0.9740850983270121
+Support Vector Classifier,weighted avg,precision,0.9763229614420403
+Support Vector Classifier,weighted avg,recall,0.9727891156462585
+Support Vector Classifier,weighted avg,f1-score,0.9730470468062788
 Support Vector Classifier,weighted avg,support,5586.0

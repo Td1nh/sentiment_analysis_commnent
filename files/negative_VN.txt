@@ -102,3 +102,7 @@ khó_tán
 gàu
 rụng
 ngứa
+không_hiệu_quả
+khô
+chưa_hiệu_quả
+bị_khô
