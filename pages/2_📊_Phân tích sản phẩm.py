@@ -254,7 +254,7 @@ san_pham = pd.read_csv('data/DATA - FINAL/All_San_pham_clean.csv', sep=';')
 
 
 # ================================== STREAMLIT ===================================
-st.set_page_config(page_title="Thông tin sản phẩm", page_icon="📊", layout = "wide")
+st.set_page_config(page_title="Phân tích sản phẩm", page_icon="📊", layout = "wide")
 
 st.sidebar.title("👋 Sentiment Analysis 👋")
 st.markdown(
@@ -354,28 +354,10 @@ st.sidebar.write("""#### Giảng viên hướng dẫn:\n
                 Khuất Thùy Phương""")
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
-products = pd.DataFrame(san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique())]['ten_san_pham'].unique(), columns=['ten_san_pham']).reset_index(drop=True)
-random_products = products.head(n=10)
-st.session_state.random_products = random_products
+products = san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique())]['ten_san_pham'].unique()
+selected_product = st.selectbox('Sản phẩm:',products)
 
-# Kiểm tra xem 'selected_ma_san_pham' đã có trong session_state hay chưa
-if 'selected_ma_san_pham' not in st.session_state:
-    # Nếu chưa có, thiết lập giá trị mặc định là None hoặc ID sản phẩm đầu tiên
-    st.session_state.selected_ma_san_pham = None
-
-product_options = [row['ten_san_pham'] for index, row in st.session_state.random_products.iterrows()]
-st.session_state.random_products
-
-# Tạo một dropdown với options là các tuple này
-selected_product = st.selectbox(
-    "Nhập tên sản phẩm...",
-    options=product_options,
-    format_func=lambda x: x  # Hiển thị tên sản phẩm
-)
-
-st.session_state.selected_ma_san_pham = selected_product
-
-if st.session_state.selected_ma_san_pham :
+if selected_product:
     savepath, ma_sp, danh_gia_lien_quan, diem_trung_binh = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
 
     st.markdown(

@@ -85,7 +85,7 @@ st.sidebar.write("""#### Giảng viên hướng dẫn:\n
 st.sidebar.write("""#### Thời gian thực hiện: 7/12/2024""")
 
 
-tab1, tab2 = st.tabs(["💄 Giới thiệu Hasaki", "🔑 Mục tiêu"])
+tab1, tab2, tab3 = st.tabs(["💄 Giới thiệu Hasaki", "🔑 Mục tiêu", "🚀 Thực hiện"])
 
 with tab1:
     st.write('<p class="sttext"> <strong>Hasaki.vn</strong> là hệ thống cửa hàng mỹ phẩm chính hãng và dịch vụ chăm sóc sắc đẹp với quy mô toàn quốc. Là đối tác chiến lược của nhiều thương hiệu lớn tại thị trường Việt Nam.</p>', unsafe_allow_html=True)
@@ -190,10 +190,108 @@ with tab2:
         <strong>🎯 Bài toán đặt ra:</strong><br>
         - Làm sao để các nhãn hàng hiểu rõ hơn về cảm nhận và ý kiến của khách hàng qua đánh giá sản phẩm.<br>
         - Từ đó cải thiện chất lượng sản phẩm và nâng cao trải nghiệm dịch vụ. <br>
-        <strong>🚀 Thực hiện:</strong> <br>
+        <strong>🏆 Kết quả bài toán:</strong> <br>
         - Lựa chọn sản phẩm và có thể xem được cái thông tin liên quan đến sản phẩm: thống kê về đánh giá, thống kê về ngày bình luận,... <br>
         - Nhập bình luận và hệ thống sẽ đánh giá, phân tích về nhãn của bình luận đó: tích cực - tiêu cực - trung bình.
         </p>
         """,
         unsafe_allow_html=True
     )
+
+with tab3:
+    st.markdown(
+        """
+        <p class="intro-paragraph1">
+        <strong>📦 Thu thập dữ liệu:</strong><br> Mô hình được xây dựng dựa trên bộ dữ liệu được cung cấp và dữ liệu tự thu thập thêm.<br>
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: justify; line-height: 1.5; margin-left: 200px;">
+            <img src="https://i.imgur.com/aVCPxnx.jpg" width="300">
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="intro-paragraph1">
+        <strong>📊 Phân tích dữ liệu:</strong> <br>
+        - Thống kê về "độ dài" bình luận và "số sao" đánh giá. <br>
+        - Thống kê đánh giá theo chuỗi thời gian <br>
+        - ...
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: justify; line-height: 1.5; margin-left: 200px;">
+            <img src="https://conggiangtran.com/wp-content/uploads/2022/10/5751862_outsourcing-data-analysis.png" width="400">
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="intro-paragraph1">
+        <br>
+        <strong>🧹 Tiền xử lý dữ liệu:</strong> <br>
+        - Xử lý dữ liệu trùng, thiếu,...<br>
+        - Làm sạch text:
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: justify; line-height: 1.5; margin-left: 200px;">
+            <img src="https://media.licdn.com/dms/image/D5612AQEZS4isS4VgCg/article-cover_image-shrink_720_1280/0/1721299088373?e=2147483647&v=beta&t=hK59L7wa0MbJTb1mvpkvAhoke4zzICdj822ylsz4Yos" width="400">
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="intro-paragraph1">
+        <br>
+            + Xóa ký tự lặp: Rút gọn các ký tự lặp không cần thiết.<br>
+            + Thay thế các từ/ biểu tượng đặc biệt: Chuyển đổi emoji, teencode,... <br>
+            + Sửa lỗi chính tả: Chuyển đổi các từ sai chính tả về từ đúng chính tả <br>
+            + Chuẩn hóa Unicode: Đưa về định dạng tiếng Việt chuẩn.<br>
+            + Ghép từ (postag): Tạo thành cụm từ có nghĩa.<br>
+            + Xử lý từ đặc biệt: Điều chỉnh, ghép các từ đặc biệt như “không”, “chả”,...<br>
+            + Loại bỏ từ dư thừa: Xóa stopword<br>
+        - Tạo các cột đếm từ: độ dài bình luận, số từ tích cực, số từ tiêu cực
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="intro-paragraph1">
+        <strong>🛠️ Xây dựng & Đánh giá mô hình:</strong> <br>
+        - Thực hiện Engineering, Split data,...<br>
+        - Xây dựng mô hình:<br>
+        </p>
+        """,
+        unsafe_allow_html=True
+    )  
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: justify; line-height: 1.5; margin-left: 200px;">
+            <img src="https://shopup.me/-cms/wp-content/uploads/2021/05/1_RqBVyMPJJMpEhmwIBiSFfQ.jpeg" width="400">
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="intro-paragraph1">
+        - Đánh giá mô hình
+        </p>
+        """,
+        unsafe_allow_html=True
+    ) 
