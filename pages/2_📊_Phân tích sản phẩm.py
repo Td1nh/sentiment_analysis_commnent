@@ -412,7 +412,7 @@ if selected_product:
         }
         </style>
         <p class="intro-paragraph">
-        <strong>Word could:</strong>
+        <strong>Word cloud:</strong>
         </p>
         """,
         unsafe_allow_html=True)
