@@ -139,7 +139,7 @@ def process_special_word(text):
     if not text:
         return ""
     # Danh sách các từ đặc biệt cần xử lý
-    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên', 'khó', 'không_nên', 'không_làm', 'nên'}
+    special_words = {'không', 'chả', 'kém', 'chẳng', 'đừng', 'chớ', 'chưa', 'không_có', 'không_quá', 'nên', 'khó', 'không_nên', 'không_làm', 'nên', 'chất_lượng', 'không_còn'}
     words = text.split()
     result = []
     i = 0
@@ -283,22 +283,7 @@ def sentiment_pipeline(document, positive_words, negative_words, positive_emojis
     total_negative = negative_count + negative_icon
     return total_positive, positive_word_list + positive_icon_list, total_negative, negative_word_list + negative_icon_list
 
-# def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
-#     # Tiền xử lý văn bản
-#     processed_text = processor.process_pipeline(text)
-#     count_text = process_special_word(process_postag_pyvi(normalize_repeated_characters(add_emoji_spaces(text, emoji_dict)),keep_lst))
-#     # Dự đoán cảm xúc
-#     result = sentiment_pipeline(count_text, positive_words, negative_words, positive_emojis, negative_emojis)
-#     # Tạo DataFrame chứa kết quả
-#     data = {
-#         "noi_dung_binh_luan": [text],
-#         "noi_dung_binh_luan_processed": [processed_text],
-#         "positive_count": [result[0]],
-#         "negative_count": [result[2]]
-#     }
-#     du_doan = pd.DataFrame(data)
-#     du_doan['do_dai'] = du_doan['noi_dung_binh_luan'].apply(lambda x: len(str(x).split()))
-#     return du_doan
+
 def preprocess_sentiment_text(text, processor, positive_words, negative_words, positive_emojis, negative_emojis):
     # Tách văn bản thành các dòng, mỗi dòng cách nhau bởi \n
     lines = text.split('\n')
