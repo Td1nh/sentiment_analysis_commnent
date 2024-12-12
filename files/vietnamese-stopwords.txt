@@ -1946,3 +1946,4 @@ bôi
 lên_mặt
 không_luôn
 thiệt
+mua
