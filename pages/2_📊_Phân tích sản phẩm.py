@@ -481,6 +481,10 @@ if selected_product:
     )
     so_luong(danh_gia_lien_quan)
 
+    selected_sao = st.selectbox('Số sao:',danh_gia_lien_quan['so_sao'].unique(), index=1)
+    df_sao = danh_gia_lien_quan[danh_gia_lien_quan['so_sao'] == selected_sao][['noi_dung_binh_luan', 'so_sao', 'ngay_binh_luan', 'gio_binh_luan']]
+    st.dataframe(df_sao)
+
     st.markdown(
         """
         <style>
