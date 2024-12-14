@@ -38,6 +38,8 @@ def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_p
     ma_sp = san_pham[san_pham['ten_san_pham'] == selected_product]['ma_san_pham'].iloc[0]
     danh_gia_lien_quan = danh_gia[danh_gia['ma_san_pham'] == ma_sp]
     diem_trung_binh = danh_gia[danh_gia['ma_san_pham'] == ma_sp]['so_sao'].mean()
+    so_binh_luan = danh_gia[danh_gia['ma_san_pham'] == ma_sp].shape[0]
+
     # Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
     folder = os.path.dirname(save_path)
     if not os.path.exists(folder):
@@ -83,7 +85,7 @@ def find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, save_p
         plt.close()
     else:
         plt.close()  # Đảm bảo giải phóng tài nguyên khi không có gì để vẽ
-    return save_path, ma_sp, danh_gia_lien_quan, diem_trung_binh
+    return save_path, ma_sp, danh_gia_lien_quan, diem_trung_binh, so_binh_luan
 
 
 # Thống kê cơ bản
@@ -358,7 +360,7 @@ products = san_pham[san_pham['ma_san_pham'].isin(danh_gia['ma_san_pham'].unique(
 selected_product = st.selectbox('Sản phẩm:',products, index=1)
 
 if selected_product:
-    savepath, ma_sp, danh_gia_lien_quan, diem_trung_binh = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
+    savepath, ma_sp, danh_gia_lien_quan, diem_trung_binh, so_binh_luan = find_product_code_and_wordcloud(selected_product, san_pham, danh_gia, 'image/wordcloud_image.png')
 
     st.markdown(
         """
@@ -394,6 +396,7 @@ if selected_product:
         - <strong>Sản phẩm:</strong> {selected_product} <br>
         - <strong>Mã sản phẩm:</strong> {ma_sp} <br>
         - <strong>Đánh giá trung bình:</strong> {round(diem_trung_binh,2)} <br>
+        - <strong>Tổng số đánh giá:</strong> {so_binh_luan} <br>
         </p>
         """,
         unsafe_allow_html=True
